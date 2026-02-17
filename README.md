@@ -52,11 +52,11 @@ Download and install Oracle VirtualBox from the official site:
 
 > **Tip:** If the VM does not start, verify that hardware virtualization is enabled in your BIOS/UEFI settings.
 
-## Day 1: NgSpiceSky130 - Basics of NMOS Drain Current (Id) vs Drain to Source Voltage (Vds)
+# Day 1: NgSpiceSky130 - Basics of NMOS Drain Current (Id) vs Drain to Source Voltage (Vds)
 
-### Introduction to Circuit Design and SPICE Simulations
+## Introduction to Circuit Design and SPICE Simulations
 
-#### Lecture 1: Why is SPICE Simulation needed?
+### Lecture 1: Why is SPICE Simulation needed?
 
 - A basic CMOS circuit uses a PMOS and NMOS transistor pair to implement logic functions efficiently.
 - The most fundamental example is the CMOS inverter, where PMOS connects to VDD and NMOS to GND.
@@ -99,5 +99,40 @@ Overall, detailed SPICE characterization of NMOS and PMOS devices enables accura
 
 ---
 
-#### Lecture 2: Introduction to basic element in Circuit Design - NMOS
+### Lecture 2: Introduction to basic element in Circuit Design - NMOS
+
+**NMOS (N-Channel MOSFET)**
+
+- A four-terminal device consisting of *Gate (G), Source (S), Drain (D), and Body (B)*.  
+- Fabricated on a *p-type substrate*, with *n+ diffusion regions* forming the source and drain.  
+- *SiO₂ isolation and gate oxide* electrically isolate and control the channel region.  
+- The *poly-Si or metal gate* modulates channel formation between source and drain.  
+- When sufficient gate voltage is applied, an inversion channel forms, allowing current to flow.  
+- The *body (substrate)* is typically connected to ground to maintain proper device biasing.
+
+  <p align="center">
+   <img width="400" height="400" alt="Screenshot (75)" src="https://github.com/user-attachments/assets/c88dc212-4a6f-4b02-af12-e979942c6f2e" /><br>
+   <em>Figure: NMOS</em>
+</p>
+
+
+
+**Threshold voltage (Vth)** 
+It is the minimum gate-to-source voltage (Vgs) required to create a strong inversion layer that forms a conducting channel between the source and drain.
+
+- When *Vgs = 0* and the *Drain, Source, and Bulk* are connected to ground, no inversion channel exists.  
+- The *Body–Source (B–S)* and *Body–Drain (B–D)* junctions behave as p–n diodes and remain reverse-biased (OFF).  
+- Because no channel is formed, the *Source–Drain resistance is very high*, resulting in negligible current flow.  
+- When a *positive Vgs* is applied and exceeds *Vth*, an inversion layer forms at the oxide–substrate interface, allowing current to flow between source and drain.
+
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/65a0fa91-4e15-458d-b173-d1de14c775f8" width="300" style="margin-right: 10px;" />
+  <img src="https://github.com/user-attachments/assets/8a89b4ea-15de-4b93-9b5c-d92ddd7537d8" width="300" style="margin-right: 10px;" />
+  <img src="https://github.com/user-attachments/assets/b69c91bc-f827-4acf-8ac1-6feb74dbca43" width="300" />
+</p>
+<p align="center">
+  <b>Figure :</b> NMOS switching behavior
+</p>
+
+---
 
