@@ -1,5 +1,7 @@
 # CMOS-Circuit-Design-and-SPICE-Simulations-using-Sky130
 
+Design and simulation of CMOS circuits using the Sky130 process node, focusing on schematic development, SPICE-based performance analysis, and the implementation and verification of fundamental analog and digital building blocks in an open-source PDK environment.
+
 ## 🖥️ VirtualBox Setup
 
 Follow the steps below to load and run the provided CMOS Virtual Disk Image (VDI) in Oracle VirtualBox.
@@ -37,7 +39,7 @@ Download and install Oracle VirtualBox from the official site:
 - Navigate to the extracted CMOS `.vdi` file and select it
 - Confirm and complete the VM creation (**Next → Finish**)
 
-  <img width="800" height="500" alt="Screenshot (64)" src="https://github.com/user-attachments/assets/9f85efd5-c100-433f-b2e3-419432a33c85" />
+  <img width="700" height="500" alt="Screenshot (64)" src="https://github.com/user-attachments/assets/9f85efd5-c100-433f-b2e3-419432a33c85" />
 
 
 ---
@@ -49,3 +51,53 @@ Download and install Oracle VirtualBox from the official site:
 ---
 
 > **Tip:** If the VM does not start, verify that hardware virtualization is enabled in your BIOS/UEFI settings.
+
+## Day 1: NgSpiceSky130 - Basics of NMOS Drain Current (Id) vs Drain to Source Voltage (Vds)
+
+### Introduction to Circuit Design and SPICE Simulations
+
+#### Lecture 1: Why is SPICE Simulation needed?
+
+- A basic CMOS circuit uses a PMOS and NMOS transistor pair to implement logic functions efficiently.
+- The most fundamental example is the CMOS inverter, where PMOS connects to VDD and NMOS to GND.
+- When input is low → PMOS ON, NMOS OFF → output high.
+- When input is high → NMOS ON, PMOS OFF → output low.
+
+<p align="center">
+   <img width="350" height="400" alt="Screenshot (65)" src="https://github.com/user-attachments/assets/3045ebf2-42aa-4372-804e-2b7e029c1711" /><br>
+   <em>Figure: CMOS Inverter Circuit</em>
+</p>
+
+
+**DC transfer characteristics of a basic CMOS inverter**
+
+The plot below illustrates the DC transfer characteristics of a basic CMOS inverter obtained through SPICE simulations. The upper curves show the NMOS and PMOS drain current (Id) versus output voltage (Vout) for different input voltages, explaining how the switching behavior occurs. The lower plot represents the inverter voltage transfer characteristic (VTC), highlighting the different operating regions (cutoff, linear, saturation) of NMOS and PMOS as Vin transitions from low to high.
+
+<p align="center">
+   <img width="400" height="500" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/e7f9ccfa-031c-4b5f-8776-566f8640fd55" /><br>
+   <em>Figure: DC transfer characteristics</em>
+</p>
+
+**Propagation Delay Modeling Using SPICE Characterization**
+
+<p align="center">
+   <img width="500" height="400" alt="Screenshot (70)" src="https://github.com/user-attachments/assets/c6977af6-2b76-4601-93a7-53840b1433ce" /><br>
+   <em>Figure: CTS Delay Characterization</em>
+</p>
+
+
+The figure shows buffer insertion during Clock Tree Synthesis (CTS), where SPICE-generated delay tables are used to model how each buffer drives different capacitive loads.
+Cell delay is obtained by selecting the corresponding input slew row and output load column from the delay table, with interpolation used when exact values are unavailable.
+Different delay tables represent different Wn/Wp sizing ratios, illustrating how transistor sizing directly impacts propagation delay.
+Overall, detailed SPICE characterization of NMOS and PMOS devices enables accurate delay modeling and helps optimize buffer sizing for timing closure.
+
+**Why do we need SPICE?**
+
+- Cell delay mainly originates from transistor switching behavior and the load capacitance seen at the output.  
+- Analytical delay models are only approximations and may not capture all second-order effects accurately.  
+- SPICE provides detailed device-level simulation to validate and calibrate STA results, ensuring timing accuracy.
+
+---
+
+#### Lecture 2: Introduction to basic element in Circuit Design - NMOS
+
