@@ -48,9 +48,9 @@ Download and install Oracle VirtualBox from the official site:
 - Highlight the newly created virtual machine
 - Click **Start** to boot the environment
 
----
 
 > **Tip:** If the VM does not start, verify that hardware virtualization is enabled in your BIOS/UEFI settings.
+---
 
 # Day 1: NgSpiceSky130 - Basics of NMOS Drain Current (Id) vs Drain to Source Voltage (Vds)
 
