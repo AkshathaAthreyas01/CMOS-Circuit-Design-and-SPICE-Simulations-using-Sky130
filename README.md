@@ -136,7 +136,7 @@ It is the minimum gate-to-source voltage (Vgs) required to create a strong inver
 
 ---
 
-### Lecture 3: Strong inversion and threshold voltage
+### 2 - Lecture 3: Strong inversion and threshold voltage
 
   **NMOS Operation — Strong Inversion Region**
 
@@ -173,7 +173,7 @@ It is the minimum gate-to-source voltage (Vgs) required to create a strong inver
 ---
 
 
-### Lecture 4: Strong inversion and threshold voltage
+### 3 - Lecture 4: Strong inversion and threshold voltage
 
 **Surface Inversion with Substrate Bias**
 
