@@ -56,7 +56,7 @@ Download and install Oracle VirtualBox from the official site:
 
 ## Introduction to Circuit Design and SPICE Simulations
 
-### Lecture 1: Why is SPICE Simulation needed?
+### 0 - Lecture 1: Why is SPICE Simulation needed?
 
 - A basic CMOS circuit uses a PMOS and NMOS transistor pair to implement logic functions efficiently.
 - The most fundamental example is the CMOS inverter, where PMOS connects to VDD and NMOS to GND.
@@ -99,7 +99,7 @@ Overall, detailed SPICE characterization of NMOS and PMOS devices enables accura
 
 ---
 
-### Lecture 2: Introduction to basic element in Circuit Design - NMOS
+### 1 - Lecture 2: Introduction to basic element in Circuit Design - NMOS
 
 **NMOS (N-Channel MOSFET)**
 
@@ -163,9 +163,51 @@ It is the minimum gate-to-source voltage (Vgs) required to create a strong inver
 - Therefore, a larger *Vgs* is needed to turn ON the NMOS when *Vsb is positive*.
 
 
+
 <p align="center">
    <img width="400" height="400" alt="Screenshot (88)" src="https://github.com/user-attachments/assets/0632b213-7c66-468f-9f8d-412ef4534b33" />
 <br>
    <em>Figure: Effect of substrate bias (body effect) on NMOS threshold voltage</em>
 </p>
+
+---
+
+
+### Lecture 4: Strong inversion and threshold voltage
+
+**Surface Inversion with Substrate Bias**
+
+Consider the above (NMOS Strong Inversion and Channel Formation) figure.
+- *Case 1 (Vsb = 0):* The semiconductor surface inverts to n-type when *Vgs = Vto* (threshold without body bias).  
+- *Case 2 (Vsb > 0):* Due to substrate bias, additional reverse bias widens the depletion region.  
+- Hence, surface inversion now occurs at a higher gate voltage: *Vgs = Vto + V1*.  
+- This demonstrates the *body effect*, where substrate bias increases the effective threshold voltage.
+
+*Conclusion:*  
+In the presence of substrate bias (*Vsb*), extra gate potential is required to achieve strong inversion.
+
+
+**Threshold Voltage Variation with Body Bias** 
+
+- The figure below illustrates the *body effect*, where the NMOS threshold voltage increases with substrate bias (*Vsb*).  
+- The relationship is given by:
+
+  **Vt = Vto + γ(√|−2Φf + Vsb| − √|−2Φf|)**
+
+- Here, *Vto* is the threshold voltage at *Vsb = 0* and depends on the fabrication process.  
+- The *body effect coefficient (γ)* quantifies how strongly *Vsb* influences *Vt* and is determined by process parameters such as substrate doping (*NA*), oxide capacitance (*Cox*), and silicon permittivity (*εsi*).  
+- As shown in Fig. 2, increasing *Vsb* widens the depletion region, increases the surface potential requirement, and therefore raises the effective *Vt*.  
+- The *Fermi potential (Φf)* depends on substrate doping (*NA*) and intrinsic carrier concentration (*ni*), linking device physics to the observed shift in threshold voltage.
+
+*Key Insight:*  
+Higher substrate bias ⇒ larger depletion width ⇒ higher required gate voltage for strong inversion ⇒ increased threshold voltage.
+
+
+<p align="center">
+   <img width="400" height="300" alt="Screenshot (93)" src="https://github.com/user-attachments/assets/baf9e89a-98a4-46e9-9f55-54b41ac4e319" />
+<br>
+   <em>Figure: NMOS Body Effect: Threshold Voltage Shift with Vsb</em>
+</p>
+
+---
 
