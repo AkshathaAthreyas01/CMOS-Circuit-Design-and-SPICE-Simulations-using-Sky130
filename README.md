@@ -136,3 +136,36 @@ It is the minimum gate-to-source voltage (Vgs) required to create a strong inver
 
 ---
 
+### Lecture 3: Strong inversion and threshold voltage
+
+  **NMOS Operation — Strong Inversion Region**
+
+- When a **positive Vgs* is applied and increased, the electric field attracts electrons toward the gate region.  
+- Once *strong inversion* occurs, a conductive channel is formed under the gate.  
+- The *Vgs* at which strong inversion begins is called the *threshold voltage (Vt)*.  
+- Further increase in *Vgs* does not significantly change the depletion width but increases channel charge.  
+- Electrons from the heavily doped *n+ source* are pulled into the channel region.  
+- A continuous *n-channel* forms between source and drain, and its conductivity is controlled by *Vgs*.
+
+<img width="400" height="300" alt="Screenshot (84)" src="https://github.com/user-attachments/assets/bdd95b71-3456-4213-890a-d035d8e98224" style="margin-right: 10px;" /> <img width="400" height="300" alt="Screenshot (85)" src="https://github.com/user-attachments/assets/d7cdfe93-edf8-4f79-8042-e667ba064045" />
+
+<p align="center">
+  <b>Figure :</b> NMOS Strong Inversion and Channel Formation
+</p>
+
+
+**NMOS Body Effect (Impact of Vsb)**
+
+- The figure compares NMOS behavior for *Vsb = 0* and *Vsb > 0*.  
+- When *Vsb increases (bulk more negative than source)*, the source–bulk junction becomes more reverse biased.  
+- This increases the *depletion region width near the source*, requiring a higher gate voltage to form inversion.  
+- As a result, the *threshold voltage (Vt) increases* — this phenomenon is called the *body effect*.  
+- Therefore, a larger *Vgs* is needed to turn ON the NMOS when *Vsb is positive*.
+
+
+<p align="center">
+   <img width="400" height="400" alt="Screenshot (88)" src="https://github.com/user-attachments/assets/0632b213-7c66-468f-9f8d-412ef4534b33" />
+<br>
+   <em>Figure: Effect of substrate bias (body effect) on NMOS threshold voltage</em>
+</p>
+
