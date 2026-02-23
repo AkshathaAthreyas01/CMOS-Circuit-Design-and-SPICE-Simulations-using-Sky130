@@ -199,7 +199,7 @@ In the presence of substrate bias (*Vsb*), extra gate potential is required to a
 - As shown in Fig. 2, increasing *Vsb* widens the depletion region, increases the surface potential requirement, and therefore raises the effective *Vt*.  
 - The *Fermi potential (Φf)* depends on substrate doping (*NA*) and intrinsic carrier concentration (*ni*), linking device physics to the observed shift in threshold voltage.
 
-*Key Insight:*  
+*Conclusion:*  
 Higher substrate bias ⇒ larger depletion width ⇒ higher required gate voltage for strong inversion ⇒ increased threshold voltage.
 
 
@@ -211,3 +211,155 @@ Higher substrate bias ⇒ larger depletion width ⇒ higher required gate voltag
 
 ---
 
+## NMOS resistive region and Saturation region of operation
+
+### 4 - Lecture 1: Resistive region of operation with small drain-source voltage
+
+**Effect of Increasing Vgs on the Depletion Region**
+
+Consider increasing *Vgs* from *1 V to 2.5 V* in steps of *0.5 V* (with Vgs > Vt).
+
+- *Vgs ≈ 1.0 V:* Strong inversion begins. A thin inversion layer forms, and the depletion region reaches near its maximum width.  
+- *Vgs ≈ 1.5 V:* Inversion charge increases. The depletion width changes very little (almost saturated), while channel conductivity improves.  
+- *Vgs ≈ 2.0 V:* More electrons accumulate in the channel. Depletion region remains nearly constant; current capability increases.  
+- *Vgs ≈ 2.5 V:* Channel becomes highly conductive. The device drive strength improves, but depletion width still shows minimal change.
+
+<img width="400" height="300" alt="Screenshot (95)" src="https://github.com/user-attachments/assets/7d913797-8279-472b-83ad-f89f73f3e8ef" />  <img width="400" height="300" alt="Screenshot (97)" src="https://github.com/user-attachments/assets/1d7549f2-4a6e-47ad-8eb9-e645dd4b672d" />
+
+<p align="center">
+  <b>Figure :</b> NMOS Linear Region: Channel Formation vs Increasing Vgs
+</p>
+
+Once strong inversion is reached, further increase in *Vgs* mainly increases *inversion charge (channel carriers)* rather than significantly expanding the *depletion region*.
+
+**NMOS Operation in Resistive (Linear) Region**
+
+This figure below illustrates the behavior of an NMOS transistor when it is operating in the *linear (resistive) region*.
+
+<p align="center">
+<img width="500" height="400" alt="Screenshot (99)" src="https://github.com/user-attachments/assets/f706c167-74d4-402f-a22e-779b851c19ea" />
+<br>
+<em>Figure: Linear region operation of NMOS</em>
+</p>
+
+*Bias Conditions*
+- Gate voltage: *Vgs = 1 V*
+- Drain voltage: *Vds = 0.05 V (small)*
+- Threshold voltage: *Vt = 0.45 V*
+- Since *Vgs > Vt*, the device is in *strong inversion* and a channel is formed.
+
+
+*Channel Formation*
+- A conductive *n-type inversion layer* forms under the gate.
+- Electrons from the *n+ source* are attracted into the channel region.
+- A continuous path exists from *source to drain*, allowing current flow.
+- The induced channel charge *Qi ∝ (Vgs − Vt)*.
+
+*Voltage Variation Along the Channel*
+- The channel potential is not uniform when *Vds ≠ 0*.
+- At any point *x* along the channel:
+  
+  *Gate-to-channel voltage = Vgs − V(x)*
+
+- Near the *source*, V(x) ≈ 0 → channel is strongest.  
+- Near the *drain*, V(x) ≈ Vds → channel charge slightly reduces.
+
+
+*Why This is Called Resistive Region*
+- Because *Vds is small*, the channel exists along the entire length *L*.
+- No pinch-off occurs.
+- The NMOS behaves like a *voltage-controlled resistor*.
+- Drain current increases approximately *linearly with Vds*.
+
+*Effective Channel Length*
+- The highlighted region shows the *effective channel length (L)*.
+- Current flows through this inversion channel.
+- Conductivity of the channel is controlled by *Vgs*.
+
+*Conclusion:*  
+When *Vgs > Vt* and *Vds is small*, the NMOS forms a continuous inversion channel and operates in the *linear (ohmic) region*, behaving like a gate-controlled resistor.
+
+---
+### 5 - Lecture 2: Drift current theory
+
+**Channel Charge and Current Mechanisms**
+
+*Local Inversion Charge in the Channel*
+
+<p align="center">
+<img width="500" height="400" alt="dggagfhwufwyigtiuw" src="https://github.com/user-attachments/assets/854e0e76-14a0-401d-899c-6bf443380fc8" />
+<br>
+<em>Figure: Variation of inversion charge and current components along the NMOS channel</em>
+</p>
+
+In the highlighted yellow region where the MOSFET channel forms, the amount of inversion charge present at any position **x** is strongly governed by the effective gate overdrive at that specific location.
+
+As we move along the channel from source to drain, the channel potential is not constant. Instead, it gradually varies, which means the effective gate-to-channel voltage at any point becomes:
+
+\[
+V_{GS,eff}(x) = V_{GS} - V(x)
+\]
+
+Because *V(x)* increases along the channel length, the gate’s control over the channel is spatially non-uniform. Each point along the channel experiences a slightly different electrical environment. The local inversion charge therefore depends on the instantaneous difference between the applied gate voltage and the local channel potential.
+
+
+The inversion charge density at position *x* is directly proportional to the local gate overdrive \(V_{GS} - V(x)\). As this effective voltage changes along the channel, the charge distribution also varies accordingly.
+
+
+Physical Meaning of \(C_{ox}\)
+
+The oxide capacitance per unit area, *\(C_{ox}\)*, represents the ability of the gate oxide layer to store electric charge for a given area. Physically, it quantifies how effectively the gate electrode can control the channel through the thin insulating oxide.
+
+- Higher \(C_{ox}\) → stronger electrostatic control by the gate  
+- Lower \(C_{ox}\) → weaker coupling between gate and channel  
+
+Thus, \(C_{ox}\) is a key parameter determining how efficiently the gate voltage can induce inversion charge in the channel.
+
+*Current Transport Mechanisms in the Channel*
+
+Charge transport in a MOSFET channel occurs through two fundamental mechanisms: *drift* and *diffusion*.
+
+*Drift Current*
+
+When a drain-to-source voltage (\(V_{DS}\)) is applied, an electric field is established along the channel. This field exerts a force on the charge carriers, causing them to move in a directed manner from source toward drain.
+
+This field-driven motion of carriers constitutes the *drift current*.
+
+*Characteristics of drift current:*
+
+- Requires an electric field  
+- Carrier motion is directional (not purely random)  
+- Continues as long as the electric field is present  
+- Carrier velocity depends on the strength of the electric field  
+- Most carriers participate when the electric field is sufficiently strong  
+
+Mathematically,
+
+\[
+I_d = (\text{carrier velocity}) \times (\text{available inversion charge across channel width})
+\]
+
+
+*Diffusion Current*
+
+Diffusion current arises due to spatial variations in carrier concentration rather than from an external electric field.
+
+Whenever carriers are unevenly distributed—crowded in one region and sparse in another—they naturally move from regions of high concentration to regions of low concentration. This process continues until equilibrium is approached.
+
+*Key features of diffusion current:*
+
+- Driven by carrier concentration gradient  
+- Does not require an external electric field  
+- Occurs due to natural spreading of carriers  
+- Direction depends on density imbalance  
+- Prominent where carrier distribution is non-uniform  
+
+In essence, diffusion current emerges wherever there is a gradient in carrier density along the channel.
+
+- Local inversion charge depends on *\(V_{GS} - V(x)\)* and therefore varies along the channel.  
+- *\(C_{ox}\)* determines how strongly the gate can control channel charge.  
+- MOSFET channel current consists of:
+  - *Drift current* → field-driven carrier motion  
+  - *Diffusion current* → concentration-gradient-driven motion  
+
+Together, these mechanisms govern the overall drain current in the device.
