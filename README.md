@@ -363,3 +363,435 @@ In essence, diffusion current emerges wherever there is a gradient in carrier de
   - *Diffusion current* → concentration-gradient-driven motion  
 
 Together, these mechanisms govern the overall drain current in the device.
+
+---
+
+### 6 - Lecture 3 : Drain current model for Linear region of operation
+
+**First-Order Analysis of NMOS Drain Current**
+
+This section derives the drain current equation of an NMOS transistor using the *charge-sheet approximation* and first-order device physics.
+
+Inversion Charge Along the Channel
+
+At a position *x* along the channel, the inversion charge density is proportional to the local gate overdrive:
+
+\[
+Q_i(x) \propto -\left([V_{GS} - V(x)] - V_T\right)
+\]
+
+Using oxide capacitance per unit area:
+
+\[
+Q_i(x) = -C_{ox}\left([V_{GS} - V(x)] - V_T\right)
+\]
+
+
+The effective gate voltage is reduced locally by the channel potential \(V(x)\), making the inversion charge non-uniform from source to drain.
+
+
+Types of Current in MOSFET
+
+From a device perspective, current flow has two components:
+
+1. *Drift current* → due to electric field (dominant in strong inversion)  
+2. *Diffusion current* → due to carrier concentration gradient  
+
+In strong inversion and for this first-order model, *drift current dominates*, so we focus on drift.
+
+Drift Current Expression
+
+Drain current is given by:
+
+\[
+I_D = (\text{carrier velocity}) \times (\text{available charge}) \times (\text{channel width})
+\]
+
+\[
+I_D = -v_n(x)\,Q_i(x)\,W
+\]
+
+Carrier Velocity
+
+Carrier velocity is proportional to the electric field:
+
+\[
+v_n(x) = \mu_n E_x
+\]
+
+Since:
+
+\[
+E_x = \frac{dV}{dx}
+\]
+
+we get:
+
+\[
+v_n(x) = \mu_n \frac{dV}{dx}
+\]
+
+Substitute Velocity into Current
+
+\[
+I_D = -\mu_n \frac{dV}{dx} \cdot Q_i(x) \cdot W
+\]
+
+Substitute \(Q_i(x)\):
+
+\[
+I_D = \mu_n C_{ox} W \left([V_{GS} - V(x)] - V_T\right)\frac{dV}{dx}
+\]
+
+Separate Variables for Integration
+
+Rearrange:
+
+\[
+I_D\,dx = \mu_n C_{ox} W \left([V_{GS} - V(x)] - V_T\right)\,dV
+\]
+
+Apply Integration Limits
+
+We integrate:
+
+- *x:* from 0 → L  
+- *V:* from 0 → \(V_{DS}\)
+
+\[
+\int_0^L I_D\,dx = \mu_n C_{ox} W \int_0^{V_{DS}} \left([V_{GS}-V]-V_T\right)\,dV
+\]
+
+Since \(I_D\) is constant along the channel:
+
+\[
+I_D L = \mu_n C_{ox} W \left[(V_{GS}-V_T)V_{DS} - \frac{V_{DS}^2}{2}\right]
+\]
+
+Final Drain Current Equation
+
+\[
+\boxed{
+I_D = \mu_n C_{ox}\frac{W}{L}\left[(V_{GS}-V_T)V_{DS} - \frac{V_{DS}^2}{2}\right]
+}
+\]
+
+Technology Parameters
+
+The following are process/device parameters:
+
+- \(C_{ox}\) → oxide capacitance per unit area  
+- \(W/L\) → device geometry  
+- \(\mu_n\) → electron mobility  
+- \(V_T\) → threshold voltage  
+- \(V_{GS}\) → gate-source voltage  
+
+Using Process Transconductance
+
+Define:
+
+\[
+k_n' = \mu_n C_{ox}
+\]
+
+Then:
+
+\[
+I_D = k_n' \frac{W}{L}\left[(V_{GS}-V_T)V_{DS} - \frac{V_{DS}^2}{2}\right]
+\]
+
+Define gain factor:
+
+\[
+k_n = k_n' \frac{W}{L}
+\]
+
+So,
+
+\[
+\boxed{
+I_D = k_n\left[(V_{GS}-V_T)V_{DS} - \frac{V_{DS}^2}{2}\right]
+}
+\]
+
+
+Region of Operation Check
+
+Given:
+
+- \(V_{GS} = 1\,\text{V}\)  
+- \(V_{DS} = 0.05\,\text{V}\)  
+- \(V_T = 0.45\,\text{V}\)
+
+Compute gate overdrive:
+
+\[
+V_{GS}-V_T = 1 - 0.45 = 0.55\,\text{V}
+\]
+
+Condition for Linear Region
+
+If:
+
+\[
+V_{DS} \le (V_{GS}-V_T)
+\]
+
+then the MOSFET operates in the *linear (triode) region*.
+
+Here:
+
+\[
+0.05 < 0.55 \quad \Rightarrow \quad \text{Linear region}
+\]
+
+
+Numerical Substitution
+
+\[
+I_D = k_n\left[(1-0.45)(0.05) - \frac{0.05^2}{2}\right]
+\]
+
+\[
+I_D = k_n\left[0.0275 - 0.00125\right]
+\]
+
+\[
+\boxed{
+I_D = k_n \times 0.02625
+}
+\]
+
+
+Small \(V_{DS}\) Approximation (Resistive Behavior)
+
+When \(V_{DS}\) is very small:
+
+\[
+I_D \approx k_n (V_{GS}-V_T)V_{DS}
+\]
+
+In this region, NMOS behaves like a *voltage-controlled resistor* and current is approximately *linear in \(V_{DS}\)*.
+
+Summary
+
+- Inversion charge varies along the channel due to \(V(x)\).  
+- Drift current dominates in strong inversion.  
+- Integration of channel charge yields the NMOS I–V equation.  
+- For \(V_{DS} < V_{GS}-V_T\), the device operates in the *linear region*.  
+- For very small \(V_{DS}\), the MOSFET behaves like a *resistor*.
+
+---
+### 7 - Lecture 4 : SPICE conclusion to resistive operation
+
+**Impact of VGS and VDS on Drain Current**
+
+<p align="center">
+<img width="500" height="400" alt="Screenshot (100)" src="https://github.com/user-attachments/assets/062b9715-bfa2-49b0-bba0-904506a58968" />
+<br>
+<em>Figure: NMOS Triode Region: ID Variation with VGS and VDS Sweep</em>
+</p>
+
+
+To understand how *\(V_{GS}\)* and *\(V_{DS}\)* influence the drain current (\(I_D\)), the device is evaluated across different voltage combinations. By varying one parameter while keeping the other fixed, we can observe how their interaction governs the current behavior. The resulting changes depend not only on the individual magnitudes of these voltages but also on their combined effect on channel conduction.
+
+Condition for Triode (Linear) Region
+
+For a fixed *\(V_{GS}\)*, the NMOS transistor remains in the *triode region* as long as:
+
+\[
+V_{DS} < (V_{GS} - V_T)
+\]
+
+In this regime, the drain-to-source voltage must stay sufficiently below the gate overdrive voltage. When this condition is satisfied, the channel remains continuous from source to drain, and the device exhibits linear (ohmic) behavior. If *\(V_{DS}\)* approaches or exceeds the overdrive voltage, the operation begins to transition out of the triode region.
+
+
+Measurement Procedure
+
+The evaluation typically follows these steps:
+
+1. Fix a value of *\(V_{GS}\)*.  
+2. Sweep *\(V_{DS}\)* from *0* up to *\(V_{GS} - V_T\)*.  
+3. Record the corresponding *\(I_D\)* at each step.  
+4. Repeat the process for multiple *\(V_{GS}\)* values.  
+
+This point-by-point sweep allows us to map how the drain current evolves with changing bias conditions.
+
+
+Observed Behavior
+
+- In the triode region, the drain current follows an approximately *linear relationship with \(V_{DS}\)*.  
+- Increasing *\(V_{GS}\)* increases the available inversion charge and therefore the current level.  
+- Simulation results align closely with the first-order analytical model across the swept range.
+
+
+Conclusion
+
+The drain current in the linear region is jointly controlled by *\(V_{GS}\)* and *\(V_{DS}\)*. Maintaining  
+\[
+V_{DS} < (V_{GS} - V_T)
+\]  
+ensures continuous channel conduction and predictable linear behavior, which can be accurately verified using SPICE simulations.
+
+---
+
+### 8 - Lecture 5 : Pinch-off region condition
+
+**Channel Behavior Near Drain and Onset of Pinch-Off**
+
+At the drain end of the MOSFET, the presence of inversion depends on the local gate-to-channel voltage. As long as:
+
+\[
+(V_{GS} - V_{DS}) > V_T
+\]
+
+a conducting inversion layer still exists near the drain. Under this condition, carriers continue to be induced beneath the gate across the entire channel length.
+
+<p align="center">
+<img width="500" height="400" alt="Screenshot (102)" src="https://github.com/user-attachments/assets/3b011b42-6acb-4638-b3d9-a8107f074ea0" />
+<br>
+<em>Figure: Variation of drain current (ID) with VDS at fixed VGS showing triode region operation </em>
+</p>
+
+Continuous Channel Formation
+
+When inversion is present from *x = 0 (source)* to *x = L (drain)*:
+
+- A continuous conductive path connects source and drain.  
+- The MOSFET operates in the *linear (triode) region*.  
+- For small *\(V_{DS}\)*, the drain current increases approximately proportionally with *\(V_{DS}\)*.  
+
+Even modest changes in drain voltage influence the current flow through the channel.
+
+Condition for Onset of Pinch-Off
+
+As *\(V_{DS}\)* increases, the effective gate voltage near the drain reduces. The critical condition occurs when:
+
+\[
+(V_{GS} - V_{DS}) = V_T
+\]
+
+<p align="center">
+<img width="400" height="500" alt="Screenshot (103)" src="https://github.com/user-attachments/assets/85d10617-6d98-473d-b370-f7825219bc56" /><br>
+<em>Figure: Variation of Vgs-Vds </em>
+</p>
+
+At this point:
+
+- The surface potential at the drain end is just sufficient for inversion.  
+- The inversion charge density at the drain edge approaches *zero*.  
+- The channel no longer fully reaches the drain terminal.  
+
+This marks the beginning of *pinch-off*.
+
+What Happens After Pinch-Off
+
+Once pinch-off occurs:
+
+- The inversion layer disappears near the drain.  
+- A depletion region forms at the drain end.  
+- The channel effectively terminates slightly before the drain.  
+
+However, *drain current does not stop*. Electrons reaching the pinch-off point are swept through the depletion region into the drain by the strong electric field.
+
+Transition to Saturation Region
+
+When:
+
+\[
+V_{DS} > (V_{GS} - V_T)
+\]
+
+the MOSFET enters the *saturation region*.
+
+*Characteristics:*
+
+- Channel loses inversion near the drain.  
+- A pinched-off region forms.  
+- Further increases in *\(V_{DS}\)* produce little change in *\(I_D\)* (first-order view).
+
+Spatial Variation of Channel Charge
+
+Along the channel, the effective gate control is:
+
+\[
+V_{GS,eff}(x) = V_{GS} - V(x)
+\]
+
+Since *\(V(x)\)* increases from source to drain:
+
+- Effective gate drive decreases toward the drain.  
+- Inversion charge density gradually reduces along the channel.  
+- The weakest inversion occurs near the drain edge.
+
+Movement of Pinch-Off Point
+
+As *\(V_{DS}\)* continues to increase beyond *\(V_{GS} - V_T\)*:
+
+- The pinch-off point shifts slightly toward the *source*.  
+- The depletion region near the drain widens.  
+- The effective channel length shortens (basis of channel length modulation in advanced models).
+
+
+Pinch-off occurs when the local gate overdrive at the drain falls to the threshold voltage. Beyond this point, the MOSFET operates in saturation, where current is primarily controlled by *\(V_{GS}\)* rather than *\(V_{DS}\)*.
+
+---
+
+### 9 - Lecture 6 : Drain current model for saturation region of operation
+
+**MOSFET Saturation Region Behavior**
+
+When *(VGS − VDS) ≤ Vt*, the inversion channel pinches off near the drain, marking the transition into the saturation region.
+
+In saturation, the channel voltage no longer varies linearly along the channel as it does in the triode region. Instead, the channel potential near the drain remains approximately fixed at *(VGS − Vt)*, and the channel appears pinched off at the drain end.
+
+Once the device enters saturation, the drain current becomes largely independent of *VDS*. The current is primarily controlled by the gate overdrive voltage *(VGS − Vt)* and is ideally given by:
+
+[
+I_D = \frac{k_n}{2}(V_{GS} - V_t)^2
+]
+
+<p align="center">
+<img width="400" height="300" alt="Screenshot (104)" src="https://github.com/user-attachments/assets/b5b00bcb-4420-4099-bf4d-1eb09916b6ab" />
+<br>
+<em>Figure: Figure: MOSFET saturation with drain pinch-off and nearly constant ID.</em>
+</p>
+
+Under these conditions, the MOSFET behaves like a constant current source. After saturation is reached, the drain current remains nearly constant even with further increases in *VDS*.
+
+However, the current is not perfectly independent of *VDS* in practical devices. As *VDS* increases further, the depletion region near the drain widens, effectively shortening the channel length. This phenomenon, known as *channel length modulation*, slightly increases the drain current by reducing the effective channel resistance.
+
+Thus, while the MOSFET ideally provides a constant current in saturation, a small dependence on *VDS* remains due to channel length modulation.
+
+---
+
+## Introduction to SPICE
+
+### 10 - Lecture 1: Basic SPICE setup
+
+- SPICE uses well-defined device models to accurately represent transistor behavior. Instead of estimating performance, the simulator relies on fixed model parameters that closely match real fabricated devices. Circuit details are provided through a netlist, which describes each component and their interconnections.
+
+- When the SPICE simulation runs, it computes circuit behavior and produces both numerical data and graphical outputs. From these results, timing delays and cell responses become clear, supporting analyses such as Static Timing Analysis and overall performance verification.
+
+- Technology parameters such as VTO, k′n, γ, and λ are fixed once the technology node is chosen. These values are determined by fabrication and device physics, so they are treated as technology constants. They are supplied by the foundry within the SPICE model file and remain unchanged during simulation.
+
+- Simulation begins only after both the technology model and the circuit netlist are loaded. The tool then evaluates the electrical behavior of each component.
+
+<p float="left">
+  <img width="280" alt="Screenshot (105)" src="https://github.com/user-attachments/assets/51df81e4-364a-4164-9e3e-91b0b94b2e41" style="margin-right: 10px;" /> 
+  <img width="280" alt="Screenshot (106)" src="https://github.com/user-attachments/assets/5f4ddafa-9889-47b7-acb3-4483c5f83ffe" style="margin-right: 10px;" /> 
+  <img width="280" alt="Screenshot (107)" src="https://github.com/user-attachments/assets/3dbc2b17-4d1b-4159-aa12-c4d3746b8cd8" />
+
+<p align="center">
+  <b>Figure :</b>SPICE MOSFET setup and ID–VDS simulation.
+</p>
+
+- During a typical sweep, gate voltage is increased gradually from zero while the drain current is recorded. Each VGS step generates a new curve, building the full ID–VDS characteristic.
+
+- A correct netlist syntax is essential—SPICE recognizes devices only when the expected format is followed. The MOSFET is defined by its four terminals: Drain, Gate, Source, and Bulk, along with its W/L ratio. Bias supplies establish VGS and VDS, while the bulk of an NMOS is usually tied to ground for stable operation.
+
+- The simulator does not rely on physical geometry directly; instead, it uses mathematical models stored in the model file to predict electrical behavior.
+
+- A small resistor is often placed at the gate to limit transient current spikes. Although the MOSFET gate draws no steady-state current, its capacitance can cause brief surges during switching. The resistor helps smooth these spikes and protects the thin gate oxide and the driving source from electrical stress.
+
+
