@@ -1454,4 +1454,72 @@ These values correspond to a long-channel technology where higher supply voltage
 
 ---
 
-### 28 - Lecture 2: Step4- Merge PMOS-NMOS load curves and plot VTC
+### 28 - Lecture 2: SPICE simulation for CMOS inverter
+
+A SPICE DC simulation is performed on a CMOS inverter to obtain its Voltage Transfer Characteristic (VTC) and validate the NMOS–PMOS load-curve theory. The technology node uses L = 0.25 µm with a supply voltage of 2.5 V, and only static (DC) behavior is considered.
+
+Circuit description  
+The inverter consists of one PMOS (M1) and one NMOS (M2).  
+• PMOS (M1): drain → out, gate → in, source & bulk → VDD  
+  W = 0.375 µm, L = 0.25 µm  
+• NMOS (M2): drain → out, gate → in, source & bulk → ground  
+  W = 0.375 µm, L = 0.25 µm  
+
+<img width="400" height="400" alt="Screenshot (148)" src="https://github.com/user-attachments/assets/7ab2def1-5943-4fc7-9d5b-bb2ae87bc16a" />
+
+<img width="400" height="400" alt="Screenshot (149)" src="https://github.com/user-attachments/assets/83af8931-7c30-446b-9376-933b38344fcf" />
+
+Load and supplies  
+A load capacitor of 10 fF is connected between out and ground to model fan-out and interconnect loading. The supply VDD = 2.5 V is applied between vdd and ground, and Vin is applied between in and ground.
+
+DC sweep setup  
+To generate the VTC, Vin is swept from 0 V to 2.5 V in steps of 0.05 V, and V(out) is plotted versus V(in). Device behavior is defined using the technology model file for the 250 nm node.
+
+Results — equal sizing  
+With equal widths (WPMOS = WNMOS = 0.375 µm), the VTC is left-shifted, indicating an unbalanced inverter due to the lower hole mobility of the PMOS.
+
+Results — ratioed sizing  
+When the PMOS width is increased to 0.9375 µm (≈2.5× NMOS) with L unchanged, the VTC becomes more symmetric and the switching threshold moves closer to VDD/2. This indicates balanced pull-up and pull-down strengths.
+
+Conclusion  
+The simulation confirms that PMOS devices must be sized wider than NMOS devices (typically 2–3×) to achieve a symmetric VTC and improved noise margins.
+
+---
+
+### 29 - Lecture 3: Labs Sky130 SPICE simulation for CMOS
+
+Switching threshold  
+From the previous calculations, the inverter switching threshold is approximately 1.07479 V.
+
+Transient analysis  
+Running ngspice transient analysis allows extraction of rise time, fall time, and propagation delay.
+
+Propagation delay measurement  
+The delay is measured at the 50% voltage level (≈0.9 V).
+
+• Rise delay (tpLH):  
+  2.4833 ns − 2.1511 ns = 0.3321 ns  
+
+• Fall delay (tpHL):  
+  4.3360 ns − 4.0495 ns = 0.2865 ns  
+
+<img width="400" height="400" alt="Screenshot (150)" src="https://github.com/user-attachments/assets/01e4e8f1-f75d-4c19-9a8a-61ebcbd20fe3" />
+
+These values represent the propagation delays of the CMOS inverter during output transitions.
+
+---
+
+## Static behaviour evaluation-CMOS inverter robustness-Switching Threshold
+
+### 30 - Lecture 1: Switching Threshold, Vm
+
+From the L = 2 µm CMOS SPICE simulations, the inverter demonstrates robust behaviour. Regardless of PMOS being large or NMOS being small, the operating states remain consistent: at low Vin the PMOS turns ON, and at high Vin the NMOS turns ON.
+
+Switching threshold  
+The switching voltage is obtained at the intersection of the Vin = Vout line with the inverter VTC curve.
+
+Effect of sizing  
+Increasing PMOS width shifts the switching threshold higher. In general, the switching point depends on the W/L ratio of PMOS and NMOS devices.
+
+Critical region  
+The mid-transition region of the Vin–Vout curve is especially important because device leakage and static current strongly depend on operation in this region.
