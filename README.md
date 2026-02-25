@@ -1175,4 +1175,283 @@ Idsat ≈ W × Cox × (Vgs – Vt) × vsat
 
 ### 17 - Lecture 3: Velocity saturation at lower and higher electric fields
 
+**Velocity Saturation Impact on Id–Vgs Behavior**
 
+From earlier observations:
+
+- The **long-channel device** (W = 1.8 µm, L = 1.2 µm) exhibits a **quadratic relationship** between Id and Vgs in saturation.  
+- The **short-channel device** (W = 0.375 µm, L = 0.25 µm) shows an **almost linear increase** of Id with Vgs.  
+- This linearization occurs primarily due to the **velocity saturation effect** in short-channel MOSFETs.
+
+<img width="400" height="400" alt="Screenshot (130)" src="https://github.com/user-attachments/assets/f44b6ac1-4876-43e2-ac63-baf2a1ff59c1" />
+
+Carrier Velocity Behavior
+
+The carrier velocity vs electric field characteristic explains this shift:
+
+- At **low electric fields**, carrier velocity increases linearly  
+  → \( v = \mu E \)  
+- At **high electric fields**, velocity approaches a maximum limit  
+  → \( v_{sat} \) (velocity saturation)
+
+Because short-channel devices experience higher lateral electric fields, they enter velocity saturation earlier than long-channel devices.
+
+Continuity Condition
+
+To find the transition point, the electric field is equated to the critical field:
+
+\[
+E = E_c
+\]
+
+
+Using this boundary condition, the drain current equation can be re-derived. However, the resulting expression becomes mathematically complex.
+
+<img width="300" height="400" alt="Screenshot (131)" src="https://github.com/user-attachments/assets/7121dfd1-0bb2-41e0-83f0-9db79e0d4ec9" />
+
+Practical Modeling Approach
+
+To simplify analysis:
+
+- A unified compact model is typically used.  
+- The **basic regions of operation (cutoff, linear, saturation)** remain the same for both long- and short-channel devices.  
+- The **key difference** is the appearance of **velocity saturation effects** in short-channel operation, which modifies the current behavior.
+
+Long-channel MOSFETs follow square-law behavior, while short-channel devices deviate due to velocity saturation, leading to a more linear Id–Vgs response in saturation.
+
+---
+
+### 18 - Lecture 4: Velocity saturation drain current model
+
+**Gate Overdrive and Velocity Saturation in Short-Channel MOSFETs**
+
+The **gate overdrive voltage** is defined as:
+
+\[
+V_{gt} = V_{gs} - V_t
+\]
+
+It represents the effective gate bias controlling channel charge, especially under strong inversion. For small values of Vds, channel length modulation is typically ignored in first-order analysis.
+
+<img width="400" height="400" alt="Screenshot (132)" src="https://github.com/user-attachments/assets/e62b94bf-29b7-4c4c-99a4-0cd0ceaa786e" />
+Velocity Saturation and Vdsat
+
+As the lateral electric field inside the channel increases, carrier velocity eventually reaches a maximum limit. The drain voltage at which this velocity limit is reached is called **Vdsat**.
+
+- Before Vdsat → drain current increases with Vds  
+- After Vdsat → current increase becomes minimal due to carrier scattering and velocity saturation  
+
+Short-Channel Impact
+
+In short-channel MOSFETs:
+
+- Strong electric fields appear even at relatively low Vds  
+- Carriers reach saturation velocity much earlier than in long-channel devices  
+- Current no longer follows the classical square-law behavior  
+
+<img width="400" height="400" alt="Screenshot (133)" src="https://github.com/user-attachments/assets/7c4bc0f2-4654-4944-82d2-2984241bd166" />
+
+Technology Scaling Effect
+
+With continued technology scaling:
+
+- Effective carrier transport to the drain reduces  
+- Saturation current decreases compared to long-channel devices  
+- Velocity saturation becomes a dominant non-ideal effect  
+
+As channel lengths shrink, early velocity saturation limits current growth, causing short-channel devices to exhibit lower saturation current and more linear Id behavior compared to long-channel MOSFETs.
+
+---
+
+### 19 - Lecture 5: Labs Sky130 Id-Vgs
+
+In this SPICE simulation, the behaviour of a short-channel NMOS transistor with an effective channel length of approximately 0.12–0.15 µm is investigated at a supply voltage of 1.8 V. To obtain the output characteristics, the drain-to-source voltage (VDS) is swept from 0 V to 1.8 V in increments of 0.1 V. Simultaneously, the gate-to-source voltage (VGS) is varied in steps of 0.2 V, enabling the generation of a complete family of ID–VDS curves.
+
+<img width="400" height="400" alt="Screenshot (134)" src="https://github.com/user-attachments/assets/5b854ce0-be30-44a7-b177-68d93654c0f3" />
+
+Analysis of the plotted characteristics shows that at low VDS values, the transistor operates in the expected linear (ohmic) region, where the drain current increases with VDS. However, as VDS increases further, the curves begin to flatten earlier than in long-channel devices and exhibit a more linear appearance in the saturation region. This behaviour indicates that the channel carriers are reaching their velocity limit.
+
+<img width="500" height="400" alt="Screenshot (135)" src="https://github.com/user-attachments/assets/b67fc1b1-b097-43c5-92ae-167e6c1d6c27" />
+
+At VDS = 1.8 V, the maximum drain current extracted from the plot is approximately 0.196 mA (196 µA). The early onset of saturation combined with the relatively reduced peak drain current is a clear signature of velocity saturation, which is a dominant short-channel effect caused by high electric fields in scaled MOSFET technologies.
+
+<img width="400" height="400" alt="Screenshot (136)" src="https://github.com/user-attachments/assets/98ec1612-3fb3-4c4f-b269-2548af79b617" />
+
+
+---
+
+### 20 - Lecture 6: Labs Sky130 Vt
+
+Next, the threshold voltage (Vt) is extracted from the ID–VGS transfer characteristic curve. The threshold voltage is defined as the gate-to-source voltage at which the drain current begins to rise rapidly, indicating the formation of a strong inversion channel.
+
+From the plotted curve, Vt is identified at the point where a small increase in VGS results in a sharp increase in drain current. For improved accuracy, a tangent is drawn along the steep (linear) portion of the ID–VGS curve and extrapolated back to the voltage axis. The intercept of this tangent with the VGS axis gives the threshold voltage.
+
+<img width="400" height="400" alt="Screenshot (137)" src="https://github.com/user-attachments/assets/835455e3-7488-4253-be9a-c2c25eeb5502" />
+
+Using this method, the threshold voltage (Vt) is found to be approximately 0.76 V.
+
+---
+
+## CMOS voltage transfer characteristics (VTC)
+
+### 21 - Lecture 1: MOSFET as a switch
+
+A MOS transistor conducts only when the magnitude of the gate-to-source voltage exceeds the threshold voltage, i.e., |VGS| > Vt. The modulus is used because VGS is positive for an NMOS device and negative for a PMOS device.
+
+When |VGS| is less than Vt, the transistor remains in the OFF (cutoff) region and no significant current flows. The device turns ON and conducts only when |VGS| becomes greater than the threshold voltage.
+
+<img width="400" height="400" alt="Screenshot (138)" src="https://github.com/user-attachments/assets/dccc6e05-0ce4-4108-9231-b45929c5ae6d" />
+
+Now consider CMOS (Complementary MOSFET) operation.
+
+When Vin is high and equal to VDD:
+
+• For the PMOS (upper transistor), the gate-to-source voltage is determined by Vin and VDD, since the PMOS source is connected to VDD.  
+• For the NMOS (lower transistor), the gate-to-source voltage is determined by Vin and VSS (ground), since its source is connected to VSS.
+
+Thus, in a CMOS inverter, the input voltage Vin simultaneously controls both transistors by forming VGS with VDD for the PMOS and with VSS for the NMOS.
+
+---
+
+### 22 - Lecture 2: Introduction to standard MOS voltage current parameters
+
+The behavior of a CMOS inverter depends on whether the input voltage is HIGH or LOW.
+
+When Vin = VDD (logic HIGH), the NMOS transistor turns ON while the PMOS transistor turns OFF. In this condition, the output node is connected to ground through the conducting NMOS device, creating a strong pull-down path and driving the output LOW.
+
+
+When Vin = 0 (logic LOW), the NMOS transistor turns OFF and the PMOS transistor turns ON. The output node is then connected to VDD through the PMOS device, forming a pull-up path and driving the output HIGH.
+
+Under steady-state logic conditions, only one of the two transistors conducts at any given time. This is the key reason CMOS circuits exhibit very low static power consumption.
+
+<img width="600" height="400" alt="Screenshot (139)" src="https://github.com/user-attachments/assets/9693e80b-8653-4e61-b3a8-36e8e4984228" />
+
+However, during the switching transition (when Vin is between LOW and HIGH), both the NMOS and PMOS transistors conduct momentarily. Applying current conservation at the output node, the drain current of the PMOS equals the negative of the NMOS drain current (Idsp = −Idsn). Their magnitudes are equal, but the current directions are opposite, ensuring charge balance at the output node.
+
+---
+
+### 23 - Lecture 3: PMOS/NMOS drain current vs drain voltage
+
+Since the source terminal of the NMOS transistor is connected to ground, the analysis becomes simple and direct. The gate-to-source voltage of the NMOS is equal to the input voltage, and the drain-to-source voltage equals the output voltage. Hence, for the NMOS device, VGSN = Vin and VDSN = Vout.
+
+In the case of the PMOS transistor, the direction of drain current is opposite to that of the NMOS. When referenced using the NMOS current direction convention, the PMOS drain current appears negative because its actual current flow is in the reverse direction relative to the chosen reference.
+
+<img width="500" height="400" alt="Screenshot (140)" src="https://github.com/user-attachments/assets/bdb73d8b-4742-4273-a538-bdb4fe6e8699" />
+
+A transistor begins to turn ON once the magnitude of the gate voltage exceeds the threshold voltage. As the gate voltage increases further, the drain current correspondingly increases. The characteristic I–V curve clearly shows both the linear (triode) region at lower drain voltages and the saturation region at higher drain voltages.
+
+The PMOS transistor exhibits the same fundamental behavior as the NMOS, but with reversed voltage and current polarities. Due to this polarity inversion, the PMOS current–voltage characteristics appear mirrored in the negative quadrant of the graph.
+
+---
+
+### 24 - Lecture 4: Step1- Convert PMOS gate-source-voltage to Vin
+
+
+To derive the CMOS Voltage Transfer Characteristic (VTC), the device equations must be rewritten using only VIN and VOUT, because internal voltages such as VGSN, VGSP, VDSN, and VDSP are not directly observable at the logic level. Although NMOS and PMOS devices have their own terminal voltages, a digital inverter is functionally defined only by its input and output.
+
+<img width="300" height="300" alt="Screenshot (142)" src="https://github.com/user-attachments/assets/921293d0-da54-4461-a56a-445280c4082a" />
+
+The first step is to eliminate VGSP by expressing it in terms of the input voltage. Since VGSP = VIN − VDD, it can be rearranged as VIN = VGSP + VDD. For a long-channel inverter with VDD = 2 V, each PMOS gate voltage corresponds to a unique VIN value (for example, VGSP = 0 → VIN = 2 V, VGSP = −0.5 → VIN = 1.5 V). This mapping allows PMOS characteristics to be represented directly using VIN instead of VGSP.
+
+
+<img width="500" height="400" alt="Screenshot (141)" src="https://github.com/user-attachments/assets/528331ee-0266-4939-97e2-f993c4a6010f" />
+
+Next, the PMOS current is converted into the NMOS current reference. Because PMOS current flows in the opposite direction to NMOS current, IDSP = −IDSN. By flipping the PMOS current axis, both devices can be expressed using a single current variable (IDSN) without altering the physical interpretation.
+
+After these transformations, the PMOS curves become IDSN versus VIN plots, and VGSP is completely removed from the formulation. The remaining step (performed later) is to replace VDSP and VDSN with VOUT. Once this is done, the NMOS and PMOS load curves can be combined to obtain the complete CMOS voltage transfer characteristic (VTC).
+
+---
+
+### 25 - Lecture 5: Step2 & Step3- Convert PMOS gate-source-voltage to Vin
+
+Initially, the transfer characteristics are expressed in terms of Vdsp, which is an internal PMOS voltage and cannot be measured directly.
+
+To rewrite the behavior using external node voltages, we use the circuit relation:
+Vout = Vdd + Vdsp  →  Vdsp = Vout − Vdd
+
+For Vdd = 2 V, when Vdsp varies from −2 V to 0 V, the corresponding Vout varies from 0 V to 2 V. Substituting this relation allows the PMOS characteristics to be fully expressed using the observable variables Vin and Vout.
+
+<img width="400" height="400" alt="Screenshot (143)" src="https://github.com/user-attachments/assets/18d63460-3210-426a-8b0b-122297ff8672" />
+
+When Vout = 2 V (with Vdd = 2 V), Vdsp = 0 V. There is no voltage drop across the PMOS, so the drain current becomes zero. The load capacitor CL is fully charged, representing the steady HIGH output state of the CMOS inverter.
+
+When Vout = 0 V, the magnitude of Vdsp becomes 2 V. The load capacitor CL is fully discharged, and depending on Vin, current may flow through the PMOS to recharge the output node.
+
+<img width="600" height="300" alt="Screenshot (144)" src="https://github.com/user-attachments/assets/8ca591cf-e5bd-4535-a3ae-3bedc2276540" />
+
+These operating points describe normal CMOS inverter action, where PMOS and NMOS together control the charging and discharging of the output node.
+
+For the NMOS device, VGSN = Vin and VDSN = Vout. Since both are already external node voltages, the NMOS drain current can be written directly in terms of Vin and Vout. Therefore, the NMOS load curve can be plotted without any voltage transformation.
+
+---
+
+### 26 - Lecture 6: Step4- Merge PMOS-NMOS load curves and plot VTC
+
+The CMOS Voltage Transfer Characteristic (VTC) is obtained by superimposing the NMOS and PMOS load curves on a common graph. Since both devices share the same Vin and Vout, the inverter operating point for any Vin is given by the intersection of their load curves.
+
+
+<img width="600" height="400" alt="Screenshot (145)" src="https://github.com/user-attachments/assets/784ae2ab-4dc2-4dc6-b2c8-e6cc3a4ac21e" />
+
+For each input voltage Vin, the NMOS–PMOS intersection determines the corresponding output voltage Vout. Plotting all (Vin, Vout) pairs forms the VTC.
+
+Extreme points  
+Vin = 0 V → NMOS OFF, PMOS linear → Vout = VDD = 2 V  
+Vin = 2 V → NMOS linear, PMOS OFF → Vout = 0 V  
+These define correct inverter logic.
+
+Intermediate region  
+Vin = 0.5 V → NMOS saturation, PMOS linear → Vout high  
+Vin = 1 V → both in saturation → Vout mid (high-gain region)  
+Vin = 1.5 V → NMOS linear, PMOS saturation → Vout low  
+
+Final VTC  
+Typical points: (0,2), (0.5,~1.7), (1,~1), (1.5,~0.3), (2,0).  
+Connecting them smoothly gives the CMOS inverter VTC.
+
+Key observations  
+• Maximum gain occurs when both transistors are in saturation.  
+• The steep middle slope enables fast digital switching.  
+• Load-curve analysis clearly indicates each device’s region of operation.
+
+---
+
+# Day 3: NgSpiceSky130 - CMOS switching threshold and dynamic simulations
+
+## Voltage transfer characteristics – SPICE simulations
+
+### 27 - Lecture 1: SPICE deck creation for CMOS inverter
+
+A SPICE deck begins by defining the connectivity of all circuit components, followed by the input stimulus applied to the inverter.
+
+Component connectivity  
+First, the netlist specifies how each device terminal is connected within the circuit.
+
+<img width="400" height="400" alt="Screenshot (146)" src="https://github.com/user-attachments/assets/278a3c4b-d341-4dff-a907-8eb51174ee4b" />
+
+Model inclusion  
+Next, the appropriate transistor models are included to accurately represent device behavior during simulation.
+
+Observation setup  
+Finally, the required nodes or signals are selected for monitoring. Together, these steps complete the simulation configuration.
+
+Netlist and node naming  
+M1 out in VDD VDD pmos w=0.375 L=0.25  
+M2 out in 0   0   nmos w=0.375 L=0.25  
+
+Here, M1 is the PMOS and M2 is the NMOS forming the CMOS inverter. The body terminals are properly tied to their respective supplies to account for body-bias effects on threshold voltage.
+
+<img width="600" height="300" alt="Screenshot (147)" src="https://github.com/user-attachments/assets/4da6d0cf-bb6c-4916-b6f4-9d1bf7c9730e" />
+
+Device sizing and parameters  
+Both transistors use the same reference sizing (W = 0.375 µm, L = 0.25 µm), although in practical CMOS design the PMOS is usually made wider to compensate for lower hole mobility.
+
+Simulation conditions  
+• Cload = 10 fF  
+• VDD = 2.5 V  
+• Vin sweep: 0 → 2.5 V  
+
+These values correspond to a long-channel technology where higher supply voltages are typically used.
+
+---
+
+### 28 - Lecture 2: Step4- Merge PMOS-NMOS load curves and plot VTC
