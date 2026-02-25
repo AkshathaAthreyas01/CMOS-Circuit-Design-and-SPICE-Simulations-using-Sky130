@@ -1058,3 +1058,121 @@ The terminal displays the coordinates, where the Y-value represents the drain cu
 ### 14 - Lecture 5: SPICE lab with Sky130 models
 
 
+**Reading Values from the Plot and Model Scaling**
+
+Checking Width and Length Scaling
+
+Navigate to the **models** directory and locate the file:
+
+all.spice
+
+Opening this file reveals the scaling information for the transistor **Width (W)** and **Length (L)** parameters used in the technology library.
+
+<img width="400" height="400" alt="Screenshot (123)" src="https://github.com/user-attachments/assets/65280b8a-5c0d-4962-8e34-ed4ae5360cda" />
+
+When a point on the plotted curve is clicked, the simulator prints the corresponding coordinates in the terminal window.
+
+As illustrated, the terminal shows values labeled **x0** and **y0** for the selected point:
+
+- **y0** → represents the drain current (Id)  
+- **x0** → represents the voltage corresponding to that point on the graph  
+
+This feature allows precise observation of device behavior directly from the waveform.
+
+<img width="400" height="400" alt="Screenshot (122)" src="https://github.com/user-attachments/assets/e1b8951c-a180-4da2-9ee8-e8eb7d87c677" />
+
+---
+
+# Day 2: NgSpiceSky130 - Velocity saturation and basics of CMOS inverter VTC
+
+## SPICE simulation for lower nodes and velocity saturation effect
+
+### 15 - Lecture 1: SPICE simulation for lower nodes
+
+**MOSFET Operating Regions and Node Comparison**
+
+From the plotted characteristics:
+
+- The region **left of the boundary** defined by *(Vds = Vgs − Vt)* corresponds to the **Linear (Triode) region**, where the drain current increases approximately linearly with Vds.  
+- The region **to the right of this boundary** represents the **Saturation region**, where the drain current becomes nearly constant, showing only a slight rise due to velocity saturation and other short-channel effects.  
+- The **bottom portion** of the graph, where current is nearly zero, indicates the **Cut-off region**.
+
+<img width="300" height="300" alt="Screenshot (124)" src="https://github.com/user-attachments/assets/3318c2a4-4078-43bf-ae88-cc198e2ad814" />
+
+Across these regions, the MOSFET exhibits distinctly different conduction behavior.  
+The shown characteristics primarily correspond to a **long-channel device**.
+
+<img width="300" height="300" alt="Screenshot (126)" src="https://github.com/user-attachments/assets/bd24bef0-6f9b-433b-a08d-694bc031b074" />
+
+Small Node Case
+
+Next, the same analysis is performed for a **smaller technology node** using a modified SPICE deck.
+
+*Key change:*
+- Only the **W and L values** are updated compared to the previous simulation.
+
+Small Node vs Large Node Output Characteristics
+
+<img width="300" height="300" alt="Screenshot (125)" src="https://github.com/user-attachments/assets/c2301b6d-b3e8-46a2-8b45-17a697320a97" />
+
+
+- In the **small-node device**, a noticeable step or sharper rise in drain current appears near the cutoff boundary.  
+- The **large-node device** shows a smoother transition in the same region.  
+- In the **saturation region**, the spacing between the \(I_D\) curves remains roughly similar for both devices.  
+- However, the **absolute drain current** differs: the **large-node device delivers higher current** than the small-node device.
+
+
+This comparison highlights the impact of device scaling on MOSFET output behavior.
+
+---
+
+### 16 - Lecture 2: Drain current vs gate voltage for long and short channel device
+
+**Id–Vgs Characteristics and Channel Length Effects**
+
+The Id–Vgs (drain current vs gate-to-source voltage) curve shows how MOSFET drive current varies with gate bias. Long-channel and short-channel devices exhibit noticeably different behavior mainly due to velocity saturation and other short-channel effects.
+
+<img width="400" height="400" alt="Screenshot (127)" src="https://github.com/user-attachments/assets/ebbad05d-a6ec-4a15-a51e-e3d02a82f4c1" />
+
+SPICE Configuration
+- Model inclusion: `.include sky130.lib.spice tt` (Typical corner)  
+- DC sweep: `.dc Vgs 0 1.8 0.05 Vds 1.8`  
+  - VDS is fixed in saturation  
+  - VGS is swept  
+- MOSFET instance:  
+  `M1 drain gate source bulk nfet01 W=__u L=__u`  
+- Use library-supported W/L values for valid simulation.
+
+Long-Channel Device Behavior (e.g., L = 1.2 µm, W/L = 1.5)
+- Follows the classical square-law model.  
+- In saturation:  
+  Id = (kn / 2) × (Vgs – Vt)² × (1 + λVds)  
+
+**Observations**
+- Id–Vgs shows a parabolic (quadratic) rise above threshold.  
+- Current increases rapidly with Vgs due to strong gate control.  
+- Higher peak current (~410 µA at Vgs = 1.8 V, Vds = 1.8 V).
+
+<img width="300" height="300" alt="Screenshot (128)" src="https://github.com/user-attachments/assets/fc0f95eb-e780-4176-9c44-f77e41afd4bf" />
+
+Short-Channel Device Behavior (e.g., Sky130, L ≈ 0.15–0.25 µm, W/L = 1.5)
+- Velocity saturation dominates at high lateral fields.  
+- Carrier velocity reaches vsat, so current deviates from square-law.
+
+In saturation:  
+Idsat ≈ W × Cox × (Vgs – Vt) × vsat  
+
+**Observations**
+- Id–Vgs becomes more linear at high Vgs.  
+- Peak Id is significantly lower (~210 µA at same bias).  
+- Saturation-like behavior appears earlier even at moderate Vgs.
+
+<img width="300" height="400" alt="Screenshot (129)" src="https://github.com/user-attachments/assets/1ed854e6-8dce-4abc-8985-f0b941e20588" />
+
+ Long-channel MOSFETs follow square-law behavior, while short-channel devices show reduced current and linearized Id–Vgs due to velocity saturation.
+
+ ---
+
+### 17 - Lecture 3: Velocity saturation at lower and higher electric fields
+
+
