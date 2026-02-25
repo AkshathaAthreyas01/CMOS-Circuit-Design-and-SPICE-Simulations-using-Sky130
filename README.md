@@ -795,3 +795,132 @@ Thus, while the MOSFET ideally provides a constant current in saturation, a smal
 - A small resistor is often placed at the gate to limit transient current spikes. Although the MOSFET gate draws no steady-state current, its capacitance can cause brief surges during switching. The resistor helps smooth these spikes and protects the thin gate oxide and the driving source from electrical stress.
 
 
+---
+
+
+### 11 - Lecture 2: Circuit description in SPICE syntax
+
+**SPICE Basics: Nodes and Device Syntax**
+
+Node Definition:
+A node is an electrical junction where two or more terminals are connected. If two terminals of the same device are shorted together, they form a single node. In most circuits, nodes typically connect terminals from different components.
+
+<p align="center">
+<img width="400" height="300" alt="Screenshot (109)" src="https://github.com/user-attachments/assets/30d6ef57-ddc3-4fbd-97df-6cd8e8ca7cfc" /> <br>
+<em>Figure: Figure: MOSFET biasing schematic with node connections.</em>
+</p>
+
+To identify nodes, trace the wiring in the schematic—each continuous wire represents one node. These node names are then used when writing the SPICE netlist.
+
+MOSFET Syntax
+In SPICE, MOSFET terminals must be listed in the following order:
+Drain, Gate, Source, Substrate
+Format:
+Mname Drain Gate Source Substrate Model W=1.8u L=1.2u
+
+Resistor Syntax
+A resistor is defined between two nodes.
+Format:
+Rname Node1 Node2 Value
+
+Voltage Source Syntax
+Voltage sources are specified between a positive node and a negative node (often ground).
+Format:
+Vname PositiveNode NegativeNode Value
+
+<p align="center">
+<img width="300" height="300" alt="Screenshot (108)" src="https://github.com/user-attachments/assets/ce6bc081-cce3-4f88-9180-db82efffd0c8" /> <br>
+<em>Figure: Figure: SPICE netlist with node and device definitions</em>
+</p>
+
+
+---
+
+### 12 - Lecture 3: Define Technology parameters
+
+**NMOS Technology Model and SPICE Usage**
+
+NMOS Model in Tech File
+To model a specific NMOS device, SPICE uses parameters stored in the *technology (tech) file*.  
+This file contains the electrical and physical constants that define device behavior, such as:
+
+- Threshold voltage (VTH0 / VTO)  
+- Transconductance parameter (kn′)  
+- Body effect coefficient (γ)  
+- Channel length modulation (λ)
+
+<img width="400" height="300" alt="Screenshot (111)" src="https://github.com/user-attachments/assets/682d6bae-1a99-4a09-ae42-82f6f025dbd7" /> <img width="400" height="300" alt="Screenshot (112)" src="https://github.com/user-attachments/assets/85228977-66ba-4206-b3f2-79bc861655c3" />
+
+<p align="center">
+  <b>Figure :</b> NMOS modeling via tech file
+</p>
+
+Because these values are predefined, accurate NMOS modeling becomes straightforward once the correct tech file is linked.  
+The model corresponding to the NMOS name in the netlist is searched within this file.
+
+Impact of Technology Scaling
+With shrinking technology nodes:
+
+- Short-channel effects become prominent  
+- Leakage and Vt variations increase  
+- Device behavior becomes highly sensitive  
+
+Therefore, precise parameter extraction is essential—small errors can noticeably affect simulation results.
+
+
+Model Name Matching Requirement
+The model name in the MOSFET statement must *exactly match* the name in the `.MODEL` declaration.
+
+SPICE requires:
+
+- Identical spelling  
+- Same letter case  
+- No extra spaces  
+
+Any mismatch prevents proper model recognition.
+
+Example: 
+M1 vdd n1 0 0 nmos W=1.8u L=1.2u
+.MODEL nmos NMOS ( ... )
+
+Consequences of Model Mismatch
+An incorrect model reference may:
+
+- Cause netlist errors  
+- Invoke the wrong device type  
+- Produce misleading results  
+
+Common MOSFET Model Parameters
+
+- *nmos* → Model name  
+- *NMOS* → Device type  
+- *TOX* → Oxide thickness  
+- *VTH0* → Zero-bias threshold  
+- *U0* → Carrier mobility  
+- *GAMMA1* → Body effect coefficient  
+
+Technology Model Library
+NMOS and PMOS models are stored in a library file (e.g., `xxxx_025um_model.mod`).  
+The technology node is usually implied by the filename.
+
+
+<p align="center">
+<img width="400" height="300" alt="Screenshot (110)" src="https://github.com/user-attachments/assets/39cd59d3-12e8-4a9c-bef4-b98a6d68cc8d" />
+<br>
+<em>Figure: Contents of xxxx 025um model.mod</em>
+</p>
+
+Linking Model File to Netlist
+The tech library is included in the main netlist using a library reference command, which connects the circuit to the correct technology parameters.
+
+Device Characterization
+After linking the model:
+
+- Sweep *VGS* and *VDS*  
+- Run DC analysis  
+- Observe operating regions  
+
+These simulations verify model accuracy and device performance.
+
+---
+
