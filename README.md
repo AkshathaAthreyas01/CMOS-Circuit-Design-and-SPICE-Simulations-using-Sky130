@@ -1515,11 +1515,20 @@ These values represent the propagation delays of the CMOS inverter during output
 
 From the L = 2 µm CMOS SPICE simulations, the inverter demonstrates robust behaviour. Regardless of PMOS being large or NMOS being small, the operating states remain consistent: at low Vin the PMOS turns ON, and at high Vin the NMOS turns ON.
 
+<img width="500" height="300" alt="Screenshot (151)" src="https://github.com/user-attachments/assets/f2805f78-0f95-4f39-b88e-1cff26cbe040" />
+
 Switching threshold  
 The switching voltage is obtained at the intersection of the Vin = Vout line with the inverter VTC curve.
 
 Effect of sizing  
 Increasing PMOS width shifts the switching threshold higher. In general, the switching point depends on the W/L ratio of PMOS and NMOS devices.
 
+<img width="600" height="300" alt="Screenshot (151)" src="https://github.com/user-attachments/assets/2267feb0-72da-491d-a4ca-8fb0b4288e15" />
+
 Critical region  
 The mid-transition region of the Vin–Vout curve is especially important because device leakage and static current strongly depend on operation in this region.
+
+---
+
+### 31 - Lecture 2: Analytical expression of Vm as a function of (W/L)n and (W/L)p
+
