@@ -1532,3 +1532,545 @@ The mid-transition region of the Vin–Vout curve is especially important becaus
 
 ### 31 - Lecture 2: Analytical expression of Vm as a function of (W/L)n and (W/L)p
 
+In the switching-threshold equation, all parameters except Vm are fixed by the technology model (k′n, k′p, Vtn, |Vtp|, and VDD). Therefore, Vm is the only variable influenced by transistor sizing.
+
+<img width="400" height="300" alt="Screenshot (153)" src="https://github.com/user-attachments/assets/44c3e0dc-3cc5-4282-9c21-c29a42105d6f" />
+
+Once Vm is extracted from the VTC plot, the required sizing ratio ((W/L)p / (W/L)n) can be directly computed using the switching-point equation.
+
+Where:
+
+kn = Kn′ · (Wn / Ln)  
+kp = Kp′ · (Wp / Lp)  
+
+Here, Kn′ and Kp′ are the process transconductance (technology gain) parameters obtained from the device model files.
+
+Required ratio for setting Vm  
+
+By rearranging the switching-point equation, the strength ratio between PMOS and NMOS can be expressed as:
+
+(kp · Vdsatp) / (kn · Vdsatn) =  
+
+[ (Vm − Vtn) − (Vdsatn / 2) ]  
+--------------------------------  
+[ (−Vm + VDD + |Vtp|) + (Vdsatp / 2) ]  
+
+Finally,
+
+<img width="400" height="200" alt="Screenshot (154)" src="https://github.com/user-attachments/assets/4e57e587-408d-4dd1-852c-fdf3866293c3" />
+
+This relation directly links the switching voltage Vm to the required sizing ratio of PMOS and NMOS devices.
+The switching point represents the balance between PMOS and NMOS drive strengths. The transition occurs at the exact point where one device starts to overpower the other. This balance, or tipping point, is completely determined by their relative strength ratio.
+
+<img width="400" height="300" alt="Screenshot (155)" src="https://github.com/user-attachments/assets/f3e83027-846e-4576-9c06-3683390c2a9d" />
+
+
+When Vm is approximately equal to VDD/2, the PMOS and NMOS transistors have balanced drive strengths.
+If Vm moves closer to 0 V, it indicates that the NMOS device has stronger drive capability than the PMOS.
+If Vm shifts toward VDD, it indicates that the PMOS device has stronger drive capability than the NMOS.
+
+---
+
+### 32 - Lecture 3: Analytical expression of (W/L)n and (W/L)p as a function of Vm
+
+Given a target switching threshold Vm, the objective is to determine the required (W/L) ratio of PMOS and NMOS such that:
+
+Vm = VDD / 2  
+
+For this case:  
+VDD = 2.5 V  
+Desired Vm = 1.25 V  
+
+Here, instead of calculating Vm from known device sizes, we proceed in the reverse direction — we fix Vm and compute the necessary transistor sizing ratio.
+
+Condition at switching threshold  
+At Vm:  
+Vin = Vout = Vm  
+
+The current balance condition is:  
+Idsn = −Idsp  
+or  
+Idsn + Idsp = 0  
+
+This means both transistors conduct equal magnitude current at the switching point.
+
+Current model  
+Using the velocity-saturation current model, the drain current expressions are written in terms of the effective gain parameters:
+
+kn = Kn′ · (Wn / Ln)  
+kp = Kp′ · (Wp / Lp)  
+
+where Kn′ and Kp′ are the technology-dependent gain factors obtained from the model files.
+
+Required strength ratio  
+Rearranging the switching-point equation gives:
+
+(kp · Vdsatp) / (kn · Vdsatn) =  
+
+[ (Vm − Vtn) − (Vdsatn / 2) ]  
+--------------------------------  
+[ (−Vm + VDD + |Vtp|) + (Vdsatp / 2) ]  
+
+Substituting the expressions for kn and kp in terms of (W/L), we obtain the final sizing relation. This equation directly provides the required PMOS-to-NMOS (W/L) ratio needed to set the inverter switching threshold at the desired value Vm.
+
+---
+
+### 33 - Lecture 4: Static and Dynamic simulation of CMOS inverter
+
+Static Behavior – VTC Analysis  
+
+In this case, both transistors are equally sized:
+
+(W/L)n = (W/L)p = 1.5  
+
+<img width="400" height="400" alt="Screenshot (162)" src="https://github.com/user-attachments/assets/aab6aaf5-2ee2-4590-8a6b-56dd503edd66" />
+
+The Voltage Transfer Characteristic (VTC) is plotted together with a 45° reference line (Vout = Vin).  
+The intersection of the VTC with this line determines the switching threshold voltage (Vm).
+
+With equal sizing, the switching threshold appears near the mid-supply voltage. However, identical W/L ratios do not ensure perfectly balanced performance because carrier mobility differences between NMOS and PMOS still influence behavior.
+
+The VTC exhibits the standard CMOS characteristics:  
+• Vout ≈ VDD for low Vin  
+• Vout ≈ 0 for high Vin  
+• A sharp transition region around the switching point  
+
+This verifies the static robustness of the CMOS inverter.
+
+Dynamic Behavior – Transient Analysis  
+
+Transient simulation is performed to measure propagation delays by applying a pulse input and observing the output response.
+
+Using the 50% VDD reference method:  
+• Rise delay (tpLH) = 148 ps  
+• Fall delay (tpHL) = 71 ps  
+
+Since the rise delay is larger than the fall delay, the inverter is not dynamically symmetric, even though (W/L)n = (W/L)p = 1.5. This asymmetry arises from the inherent mobility difference between electrons (NMOS) and holes (PMOS).
+
+---
+
+### 34 - Lecture 5: Static and Dynamic simulation of CMOS inverter with increased PMOS width
+
+Case 1: Vm ≈ 1.2 V  
+
+Parameters  
+(Wn/Ln = 0.7 µm / 0.15 µm)  
+(Wp/Lp ≈ 2 × (Wn/Ln))  
+
+DC Analysis  
+The switching threshold voltage is adjusted to approximately 1.2 V.  
+Compared to the symmetric case (Vm ≈ VDD/2), the switching point shifts upward, indicating stronger PMOS pull-up strength relative to NMOS.
+
+Transient Analysis  
+• Rising edge delay shows slight improvement due to increased PMOS drive strength (faster charging of load capacitance).  
+• Falling edge delay increases moderately since the relatively weaker NMOS must discharge against a stronger PMOS.  
+
+This case shows partial compensation of mobility differences, but the inverter is still not fully balanced dynamically.
+
+<img width="600" height="300" alt="Screenshot (163)" src="https://github.com/user-attachments/assets/b4c2cc3e-f4df-4fd4-a7df-e7145a4c9dd5" />
+
+
+Case 2: Vm ≈ 1.4 V  
+
+Parameters  
+(Wn/Ln = 0.7 µm / 0.15 µm)  
+(Wp/Lp ≈ 3 × (Wn/Ln))  
+
+DC Analysis  
+The switching threshold voltage is increased further to approximately 1.4 V.  
+The VTC shifts more toward VDD, clearly indicating dominant PMOS strength.
+
+Transient Analysis  
+• Rising edge delay reduces further due to stronger pull-up current, enabling faster charging of the load capacitor.  
+• Falling edge delay increases slightly because the stronger PMOS opposes the NMOS during discharge.  
+
+<img width="600" height="300" alt="Screenshot (164)" src="https://github.com/user-attachments/assets/dc34f661-d251-46bd-b7c0-3b5f6232292d" />
+
+Conclusion  
+As PMOS width increases, the switching point Vm moves upward toward VDD. A stronger PMOS requires a higher Vin to balance NMOS current. Increasing PMOS size improves rise time (faster pull-up) but may degrade fall time due to strength imbalance.
+
+---
+
+### 35 - Lecture 6: Applications of CMOS inverter in clock network and STA
+
+In practical fabrication, slight variations in transistor W/L ratios are unavoidable. However, CMOS inverters are inherently tolerant to such process variations, and the switching threshold (Vm) remains relatively stable unless there is a significant imbalance between PMOS and NMOS strengths.
+
+Vm changes noticeably only when one device becomes considerably stronger than the other. In typical designs, the PMOS width is chosen to be approximately twice that of the NMOS to compensate for the lower hole mobility. This sizing approach helps equalize rise and fall times.
+
+<img width="400" height="300" alt="Screenshot (166)" src="https://github.com/user-attachments/assets/77c04740-02cd-4d47-aab9-f2a0e11ba430" />
+
+When rise and fall delays are closely matched, timing consistency improves, duty-cycle distortion is minimized, and signal transitions remain symmetric across different load conditions. This symmetry is one of the key strengths of CMOS inverters, contributing to their reliability and scalability in large integrated circuits.
+
+Clock inverters and buffers are specifically optimized to achieve balanced propagation delays (tpHL ≈ tpLH). Any mismatch can distort the clock waveform, creating unequal pulse widths and reducing timing margins at flip-flops and other storage elements.
+
+<img width="400" height="400" alt="Screenshot (165)" src="https://github.com/user-attachments/assets/030790b6-48e4-455c-baab-1e1aa9e6f2e7" />
+
+In multi-stage buffer chains, small rise/fall mismatches accumulate from stage to stage, increasing clock skew and making timing closure more challenging.
+
+If the rise delay (tpLH) becomes the limiting factor in timing, optimization efforts focus on strengthening the pull-up network. Increasing the PMOS width selectively reduces rise delay, ensuring that the clock edge arrives early enough to satisfy setup requirements without requiring major architectural changes.
+
+---
+
+# Day 4: NgSpiceSky130 - CMOS Noise Margin robustness evaluation
+
+## Static behaviour evaluation-CMOS inverter robustness-Noise Margin
+
+### 36 - Lecture 1: Introduction to Noise Margin
+
+Noise margin is a critical parameter in digital circuits because unwanted disturbances can shift voltage levels and cause logic errors.
+
+Ideal inverter behavior  
+For an ideal inverter:  
+• When Vin = 0 (logic 0), Vout = VDD (logic 1).  
+• When Vin = VDD (logic 1), Vout = 0 (logic 0).  
+
+The transition between these states occurs abruptly at the switching point, producing an infinite slope in the VTC. This implies perfect switching with no ambiguity between logic levels.
+
+<img width="600" height="300" alt="Screenshot (167)" src="https://github.com/user-attachments/assets/f5e7a8d4-7534-4e1d-a53a-bc8ab56e2e31" />
+
+Practical inverter behavior  
+In real CMOS devices, the slope at the switching region is finite due to non-ideal effects such as channel resistance and parasitic capacitances. Therefore, the transition from HIGH to LOW is gradual rather than instantaneous.
+
+Voltage definitions  
+• VOH: Maximum output voltage (close to VDD).  
+• VOL: Minimum output voltage (close to 0 V).  
+
+Input logic recognition  
+• 0 ≤ Vin ≤ VIL → recognized as logic LOW.  
+• VIH ≤ Vin ≤ VDD → recognized as logic HIGH.  
+
+The region between VIL and VIH is called the transition region.
+
+Impact of slope on noise immunity  
+A steeper VTC slope results in sharper switching and better noise immunity. An ideal inverter, with infinite slope at the switching point, offers maximum noise rejection. In contrast, a practical inverter has a finite slope, limiting its ability to reject noise and making noise margins finite.
+
+---
+
+### 37 - Lecture 2: Noise Margin voltage paramters
+
+
+In a real CMOS inverter, the Voltage Transfer Characteristic (VTC) is not an ideal rectangle. The output does not switch instantly from VDD to 0 because the slope in the transition region is finite. Therefore, we cannot simply define logic levels using VDD/2. Precise voltage limits are required to determine valid logic 0 and logic 1 levels and to quantify how much noise the circuit can tolerate. These limits are defined by noise margin parameters.
+
+Ideal vs Practical Inverter  
+
+Ideal inverter:  
+• Vout = VDD for Vin < VDD/2  
+• Instant switching at Vin = VDD/2  
+• Vout = 0 for Vin > VDD/2  
+This produces an infinite slope at the switching point and perfect noise immunity.
+
+Practical inverter:  
+• Vout ≈ VDD for low Vin  
+• Gradual transition around the switching region  
+• Vout ≈ 0 for high Vin  
+Because of finite resistance and parasitic effects, the slope is finite, resulting in limited noise immunity.
+
+<img width="500" height="400" alt="Screenshot (168)" src="https://github.com/user-attachments/assets/4d1e6dbf-1dfa-4e53-9f40-a6ca81b38ccb" />
+
+Voltage Definitions  
+
+• VOH: Minimum output voltage recognized as logic HIGH (near VDD)  
+• VOL: Maximum output voltage recognized as logic LOW (slightly above 0 V)  
+• VIL: Maximum input voltage treated as logic LOW  
+• VIH: Minimum input voltage treated as logic HIGH  
+
+Input Ranges  
+
+• 0 ≤ Vin ≤ VIL → Valid LOW input (output guaranteed HIGH)  
+• VIL < Vin < VIH → Transition region (undefined zone)  
+• VIH ≤ Vin ≤ VDD → Valid HIGH input (output guaranteed LOW)  
+
+Finding VIL and VIH  
+
+Both are determined from the actual VTC at points where the slope equals −1 (dVout/dVin = −1).  
+These unity-gain points mark the boundary between stable regions (|gain| < 1) and the high-gain transition region (|gain| > 1).
+
+Noise Margins  
+
+• NML = VIL − VOL (LOW noise margin)  
+• NMH = VOH − VIH (HIGH noise margin)  
+
+Larger noise margins indicate a more robust and reliable digital circuit. These parameters are typically extracted from SPICE-simulated VTC curves.
+
+
+---
+
+### 38 - Lecture 3: Noise margin equation and summary
+
+<img width="500" height="300" alt="Screenshot (169)" src="https://github.com/user-attachments/assets/5b14520c-ae62-4a38-b6e9-3352534a5434" />
+
+In the diagram, the key noise margin terms are defined as follows:
+
+• NMH (Noise Margin High): The voltage range within which a signal is safely recognized as logic ‘1’.  
+• NML (Noise Margin Low): The voltage range within which a signal is safely recognized as logic ‘0’.  
+• Undefined Region: The voltage range between VIL and VIH where the logic level is uncertain.
+
+Noise margins represent the tolerance of the circuit to unwanted disturbances.
+
+Glitch interpretation  
+• If a voltage bump lies between 0 and VOL (or within NML), it is a safe glitch and still interpreted as logic ‘0’.  
+• If a bump lies in the undefined region (between VIL and VIH), it is hazardous because the logic level may flip unpredictably.  
+• If a bump lies between VIH and VOH (within NMH), it will be interpreted as logic ‘1’, and such glitches must be corrected.
+
+<img width="600" height="400" alt="Screenshot (170)" src="https://github.com/user-attachments/assets/c44fc011-47dd-4720-901b-a5929ce8f987" />
+
+Observed Noise Margins for Different PMOS Sizing  
+
+Wp/Lp = 1 × (Wn/Ln) → NMH = 0.3, NML = 0.3, Vm ≈ 0.99 V  
+Wp/Lp = 2 × (Wn/Ln) → NMH = 0.35, NML = 0.3, Vm ≈ 1.2 V  
+Wp/Lp = 3 × (Wn/Ln) → NMH = 0.4, NML = 0.3, Vm ≈ 1.25 V  
+Wp/Lp = 4 × (Wn/Ln) → NMH = 0.42, NML = 0.27, Vm ≈ 1.35 V  
+Wp/Lp = 5 × (Wn/Ln) → NMH = 0.42, NML = 0.27, Vm ≈ 1.4 V  
+
+
+Increasing PMOS width shifts Vm upward and improves NMH, but excessive sizing may slightly reduce NML. Proper sizing balances both margins for robust operation.
+
+---
+
+### 39 - Lecture 4: Noise margin variation with respect to PMOS width
+
+To study the effect of PMOS/NMOS sizing on noise margins, CMOS inverter characteristics are analyzed using SPICE simulations.
+
+The DC transfer curve is examined, and noise margins are determined from the slope and the defined voltage regions (NMH and NML).
+
+<img width="600" height="400" alt="Screenshot (171)" src="https://github.com/user-attachments/assets/6c80d22b-0c42-4df8-a354-180293a63eef" />
+
+As PMOS width increases relative to NMOS:
+• Noise Margin High (NMH) increases from 0.3 V to about 0.42 V at 5× (Wn/Ln).
+• Noise Margin Low (NML) remains stable initially but slightly decreases beyond 3× (Wn/Ln).
+
+Thus, increasing PMOS strength improves logic ‘1’ noise immunity, with a minor trade-off in logic ‘0’ margin at higher ratios.
+
+Fabrication process variations can cause small changes in noise margins. However, CMOS inverters remain robust when designed with optimal size ratios, and small margin variations (around ±5%) generally do not affect proper digital operation.
+
+---
+
+### 40 - Lecture 5: Sky130 Noise margin labs
+
+CMOS Inverter Analysis  
+
+W/L Ratio: (W/L)p / (W/L)n = 2.77  
+
+DC Sweep Conditions:  
+• Input voltage (Vin) swept from 0 to 1.8 V  
+• Step size = 0.01 V  
+
+From the Voltage Transfer Characteristic (VTC), the points where the slope (dVout/dVin) = −1 are identified:  
+• X-axis values give VIL and VIH  
+• Y-axis values give VOH and VOL  
+
+Extracted Parameters:  
+VOH = 1.70952 V  
+VIH = 0.98778 V  
+VIL = 0.7733 V  
+VOL = 0.09523 V  
+
+<img width="400" height="400" alt="Screenshot (172)" src="https://github.com/user-attachments/assets/c5939367-4057-4771-a33b-64ae3998ee5e" />
+
+Noise Margin Calculations:  
+
+NMH = VOH − VIH  
+NMH = 1.70952 − 0.98778 = 0.72 V  
+
+NML = VIL − VOL  
+NML = 0.7733 − 0.09523 = 0.68 V  
+
+These values indicate balanced and strong noise immunity for both logic ‘1’ and logic ‘0’.
+
+---
+
+# Day 5: NgSpiceSky130 - CMOS power supply and device variation robustness evaluation
+
+## Static behaviour evaluation-CMOS inverter robustness-Power supply variation
+
+### 41 - Lecture 1: Smart SPICE simulations for power supply variations
+
+CMOS Inverter Robustness under Power Supply Scaling  
+
+To evaluate inverter robustness, the effect of supply voltage (VDD) scaling must be analyzed. As technology scales (e.g., 250 nm → 20 nm), VDD is reduced:
+
+• Older nodes: ~2.5 V  
+• Advanced nodes: 1 V, 0.9 V, 0.7 V  
+
+The objective is to verify that inverter operation remains stable at lower supply voltages.
+
+<img width="700" height="300" alt="Screenshot (173)" src="https://github.com/user-attachments/assets/a81ad1cd-ecf2-457e-9a4a-848d7be76f64" />
+
+SPICE Experimental Setup  
+
+CMOS sizing:  
+• (W/L)p = 0.9375 µm / 0.25 µm  
+• (W/L)n = 0.375 µm / 0.25 µm  
+(PMOS is made wider to balance pull-up and pull-down strengths.)  
+
+• Load capacitance = 10 fF  
+• Initial VDD = 2.5 V  
+
+<img width="400" height="400" alt="Screenshot (174)" src="https://github.com/user-attachments/assets/c3bc8361-380a-44a3-bc37-0de392b24918" />
+
+Power Supply Sweep Method  
+
+• Define variable: power_supply = 2.5  
+• Use “alter VDD = power_supply”  
+• Reduce VDD in 0.5 V steps  
+• Sweep from 2.5 V down to 0.5 V  
+
+<img width="600" height="500" alt="Screenshot (175)" src="https://github.com/user-attachments/assets/9b657c62-ce76-40bc-a2bd-65dbef1656e0" />
+
+• The VTC shape remains similar as VDD decreases.  
+• Switching functionality is preserved.  
+• Even at 0.5 V, the inverter continues to operate.  
+• Threshold voltage and slope scale proportionally with VDD.  
+
+This confirms that CMOS inverters maintain reliable operation under supply voltage scaling.
+
+---
+
+### 42 - Lecture 2: Advantages and disadvantages using low supply voltage
+
+CMOS Inverter Operation at Low Supply Voltage  
+
+<img width="400" height="400" alt="Screenshot (176)" src="https://github.com/user-attachments/assets/34291879-b27d-46ff-9c57-45deb91c078b" />
+
+A CMOS inverter can function at reduced supply voltages (down to 0.5 V) while still maintaining a valid voltage transfer characteristic (VTC). However, the output voltage swing decreases and the switching transition becomes less steep.
+
+Inverter performance under supply scaling is typically evaluated using voltage gain, which indicates how effectively output changes in response to input variation. As VDD decreases, the maximum gain generally reduces, resulting in weaker signal amplification and smaller noise margins.
+
+Advantages of Lower VDD  
+
+• Significant reduction in energy consumption (approximately 90%).  
+• Improved power efficiency for low-power applications.
+
+
+<img width="400" height="400" alt="Screenshot (177)" src="https://github.com/user-attachments/assets/77fe4ba0-f368-4c41-860b-f1dbe44ca582" />
+
+<img width="400" height="400" alt="Screenshot (178)" src="https://github.com/user-attachments/assets/2469fc76-fc46-4614-acae-cbeb01143ce9" />
+
+Disadvantages of Lower VDD  
+
+• Reduced NMOS and PMOS drive current weakens pull-up and pull-down strength.  
+• Lower current increases rise time (tpLH) and fall time (tpHL) due to slower charging and discharging of load capacitance.  
+• Slower transitions reduce overall switching speed, degrading inverter performance.
+
+<img width="500" height="400" alt="Screenshot (179)" src="https://github.com/user-attachments/assets/02b16857-3baa-4e6f-95d9-19c951f6cc37" />
+
+Thus, while lowering VDD improves power efficiency, it compromises speed and noise immunity.
+
+
+---
+
+### 43 - Lecture 3: Supply variation Labs
+
+Supply Voltage Scaling and Gain Analysis  
+
+The supply voltage (VDD) is varied starting from 1.8 V and reduced in steps of 0.2 V.  
+A total of six iterations are performed to ensure a gradual and controlled scaling of the power supply.
+
+Gain Evaluation  
+
+<img width="400" height="500" alt="Screenshot (180)" src="https://github.com/user-attachments/assets/6c7c831a-0ef8-4aea-9dc6-3b17dd2fd2d4" />
+
+Voltage gain is extracted from the slope of the VTC near the switching region (maximum |dVout/dVin|).
+
+• At VDD = 1.8 V → |Gain| = 7.6229  
+• At VDD = 0.8 V → |Gain| = 9.3844  
+
+Observation and Interpretation  
+
+As VDD decreases, the magnitude of gain increases in this operating range. This indicates a steeper transition in the switching region relative to the reduced voltage swing. Although the absolute output swing becomes smaller at low VDD, the inverter exhibits stronger amplification characteristics around the switching threshold.
+
+This behavior highlights that VDD scaling affects not only power consumption but also the small-signal amplification properties of the inverter. While lower supply voltage improves energy efficiency, it alters gain, switching sharpness, noise margins, and overall dynamic performance. Proper design optimization is therefore necessary to balance power savings with reliable switching behavior.
+
+---
+
+## Static behaviour evaluation-CMOS inverter robustness-Device variation
+
+### 44 - Lecture 1: Sources of variation - Etching process
+
+In a CMOS inverter, the channel length (L) is defined by the physical length of the polysilicon (or metal) gate, while the channel width (W) is determined by how much the gate overlaps the diffusion region. These geometrical parameters directly control the electrical characteristics of PMOS and NMOS transistors, including drive current, transconductance, and switching speed. Ideally, W and L are precisely controlled during fabrication; however, practical semiconductor manufacturing involves lithography resolution limits, etching non-uniformities, and alignment tolerances. Because these processes are not perfectly repeatable, small deviations in effective channel length and width naturally occur from device to device.
+
+
+<img width="500" height="400" alt="Screenshot (182)" src="https://github.com/user-attachments/assets/b97cc2e1-a17e-492a-bbf1-9eb4cdd05255" />
+
+Such dimensional variations influence several key electrical parameters. A reduction in channel length generally increases drain current due to reduced channel resistance, but it may also increase short-channel effects and leakage. Conversely, an increase in channel length weakens drive strength and increases propagation delay. Variations in channel width directly scale the current-driving capability of the device, affecting the pull-up and pull-down balance in a CMOS inverter. Since inverter performance depends on the relative strengths of PMOS and NMOS transistors, even small mismatches can shift the switching threshold (Vm), alter noise margins, and modify rise and fall times. Therefore, designing circuits that remain stable despite these fluctuations is a fundamental requirement for robust CMOS design.
+
+<img width="500" height="500" alt="Screenshot (183)" src="https://github.com/user-attachments/assets/8535f4b3-47a2-4fad-b994-0405b00cb8cd" />
+
+
+The gate length measured through the polysilicon feature defines the technology node (for example, 180 nm, 65 nm, or 20 nm) and serves as the primary scaling reference. As technology advances, the minimum achievable gate length decreases, enabling higher transistor density, lower capacitance, and faster switching speeds. However, as dimensions shrink, process variations represent a larger percentage of the total feature size. For instance, a 5 nm variation is relatively insignificant at 180 nm but becomes substantial at 20 nm. This increased sensitivity makes advanced nodes more vulnerable to variability in electrical characteristics.
+
+In an inverter chain, even when each stage is designed with identical layouts, local process variations still introduce slight differences in channel length, width, oxide thickness, and threshold voltage. Effects such as line-edge roughness, random dopant fluctuations, and local pattern density differences cause each inverter to exhibit slightly different delay and switching behavior. As a signal propagates through multiple stages, these small deviations accumulate, leading to noticeable timing dispersion and reduced predictability in overall circuit performance. This cumulative impact is particularly critical in high-speed digital paths, clock networks, and deep logic chains, where precise timing control is essential.
+
+<img width="500" height="500" alt="Screenshot (184)" src="https://github.com/user-attachments/assets/4383b93f-7c2e-471c-880b-7a74e8b2a6fc" />
+
+Despite these challenges, CMOS technology is inherently tolerant to moderate process variations, allowing correct logical functionality to be maintained. However, careful sizing, guard-banding, and statistical timing analysis are necessary to ensure reliable operation across manufacturing corners and operating conditions.
+
+---
+
+### 45 - Lecture 2: Sources of variation - Oxide thickness
+
+Oxide thickness (tox) is a significant source of process variation in CMOS technology. A thinner gate oxide increases the oxide capacitance (Cox), which lowers the effective channel resistance and enhances the drive current. Conversely, a thicker oxide reduces Cox, increases effective resistance, and weakens the drive strength of the device. In a CMOS inverter cross-section, the gate oxide is located directly beneath the polysilicon or metal gate, forming the critical insulating layer that controls channel formation.
+
+In practical fabrication, oxide thickness is not perfectly uniform across the wafer, leading to device-to-device variations. These variations directly influence threshold voltage, drain current, and switching characteristics.
+
+<img width="500" height="500" alt="Screenshot (186)" src="https://github.com/user-attachments/assets/a40dc6af-d364-4258-9d37-15c660470443" />
+
+Within an inverter chain, small differences in oxide thickness introduce slight shifts in delay and switching thresholds. As signals propagate through multiple stages, these small deviations accumulate, producing noticeable timing variations toward the later stages of the chain. Inverters positioned in the middle of the chain typically experience more uniform layout environments, allowing some variations to average out. In contrast, edge inverters are exposed to less uniform neighboring structures and layout conditions, making them more susceptible to variability.
+
+<img width="500" height="300" alt="Screenshot (187)" src="https://github.com/user-attachments/assets/9e63c169-3d3d-44b7-bffa-97d456e7edac" />
+
+Despite these process-induced variations, CMOS inverters generally maintain correct logical functionality, demonstrating strong resilience to oxide thickness fluctuations. However, since tox directly affects drain current, it ultimately influences switching speed and overall dynamic performance.
+
+---
+
+### 46 - Lecture 3: Smart SPICE simulation for device variations
+
+This lecture examines how variations in drain current influence the behavior and robustness of a CMOS inverter. The drain current is strongly dependent on device parameters such as gate oxide thickness, since thinner oxide increases capacitance and enhances drift current, while thicker oxide reduces it. This dependency is often illustrated by showing how changes in oxide thickness directly affect the current-driving capability of the transistor.
+
+<img width="600" height="400" alt="Screenshot (188)" src="https://github.com/user-attachments/assets/05c11848-5156-4f04-a169-4c1015ae8525" />
+
+To demonstrate CMOS inverter robustness, extreme-case SPICE simulations are performed. The objective is to evaluate inverter performance under worst-case sizing conditions of PMOS and NMOS transistors. The analysis begins with a configuration consisting of a strong PMOS and a weak NMOS. A strong PMOS refers to the widest possible PMOS device, which offers the lowest channel resistance and highest drive strength. In contrast, a weak NMOS represents the narrowest possible NMOS device, resulting in the highest channel resistance and lowest drive capability. From the design constraints, the maximum PMOS width is taken as 1.875 µm, while the minimum NMOS width is 0.375 µm.
+
+The study then considers the opposite extreme condition, where a weak PMOS is paired with a strong NMOS. In this case, the NMOS is assigned its maximum possible width to achieve minimum resistance and maximum drive current, while the PMOS is reduced to its minimum width, resulting in higher resistance and weaker pull-up strength. To thoroughly analyze the inverter behavior, transistor widths are swept across the full allowable range, varying from 0.375 µm to 1.875 µm for NMOS and inversely for PMOS.
+
+<img width="500" height="500" alt="Screenshot (191)" src="https://github.com/user-attachments/assets/5b29eb05-0bfd-443d-bb59-f5616e299aef" />
+
+At each step of the sweep, the DC transfer characteristics are observed and compared. By examining these extreme cases, the robustness of the CMOS inverter is evaluated in terms of switching behavior, threshold shift, and overall functional stability under significant device strength imbalance.
+
+<img width="500" height="400" alt="Screenshot (192)" src="https://github.com/user-attachments/assets/5ba8ad6e-283d-42c0-b0ac-e7638f4df657" />
+
+---
+
+### 47 - Lecture 4: Conclusion
+
+To evaluate CMOS inverter robustness, device strengths are varied from the extreme case of Strong PMOS + Weak NMOS to Weak PMOS + Strong NMOS, sweeping multiple width combinations between these limits. The Voltage Transfer Characteristics (VTC) are plotted with the input voltage (Vin) on the X-axis ranging from 0 V to 2.5 V, and the output voltage (Vout) on the Y-axis ranging from 0 V to 2.5 V.
+
+From the graph, all five curves exhibit the same fundamental inverter shape. Each curve starts at Vout ≈ 2.5 V when Vin is low and transitions to Vout ≈ 0 V when Vin is high. This confirms that the CMOS inverter maintains correct inversion behavior across all device corners. However, the key observation is that the curves are horizontally shifted relative to each other along the Vin axis. Some device combinations switch at lower input voltages, while others switch at higher input voltages. This horizontal displacement reflects the impact of device variation on switching characteristics.
+
+<img width="600" height="400" alt="Screenshot (193)" src="https://github.com/user-attachments/assets/a2c975d4-a5a5-4596-8fe3-c1e32c913b4a" />
+
+A diagonal reference line (Vout = Vin) is drawn on the same plot. The intersection point of each VTC curve with this diagonal line determines the switching threshold voltage (Vm). Since each curve intersects the diagonal at a slightly different point, Vm varies from one device corner to another. This shift in switching threshold is the primary effect of width variation on inverter behavior. Nevertheless, even when transistor widths are swept from minimum to maximum allowable values, the observed variation in Vm remains relatively small, ensuring that inverter operation remains stable despite manufacturing variations.
+
+<img width="400" height="400" alt="Screenshot (194)" src="https://github.com/user-attachments/assets/b855ebf3-d190-44d6-96e6-31db5dc77cde" />
+
+The next important parameter affected by device variation is noise margin. From the noise margin analysis, Noise Margin High (NMH) lies approximately in the range corresponding to output voltages between 2.1 V and 2.5 V, giving an NMH of about 0.4 V. This margin is sufficiently large to tolerate high-level noise variations. Noise Margin Low (NML) lies approximately between 0 V and 0.3 V, yielding an NML of about 0.3 V, which is adequate to filter out low-level noise disturbances. Although extreme sizing conditions may slightly reduce these margins, for most practical variations the inverter maintains safe and reliable logic operation.
+
+<img width="500" height="500" alt="Screenshot (195)" src="https://github.com/user-attachments/assets/20856aae-4bba-47ac-8bfc-2fb765b1aa67" />
+
+Overall, despite significant device strength variations, the CMOS inverter preserves its switching functionality, maintains reasonable threshold stability, and provides adequate noise immunity. This inherent robustness is the reason CMOS technology is widely used to implement digital circuits ranging from basic logic gates such as AND, OR, NAND, and NOR to complex large-scale integrated systems.
+
+---
+
+### 48 - Lecture 5: Device Variations Labs
+
+When the PFET width is significantly larger than the NFET width, the inverter transfer curve shifts toward the right along the input voltage axis. This occurs because the stronger PMOS requires a higher input voltage for the NMOS to overcome the pull-up strength and switch the output.
+
+<img width="600" height="400" alt="Screenshot (197)" src="https://github.com/user-attachments/assets/4cadc1f0-dc4b-4d79-b116-67246294df89" />
+
+To determine the switching threshold voltage (Vm), the region of the VTC where Vin is approximately equal to Vout is closely examined. The plot is zoomed into the intersection area by selecting the region around the point where the curve approaches the diagonal condition (Vin ≈ Vout). The zoom is refined until the intersection point can be identified with high accuracy. By selecting the point where Vin and Vout are nearly equal, the coordinates obtained are x0 = 0.988209 V and y0 = 0.988191 V.
+
+<img width="300" height="400" alt="Screenshot (198)" src="https://github.com/user-attachments/assets/cb01530d-3d6d-4000-a486-edb84e6a0fc3" />
+
+Since x0 ≈ y0, this confirms the switching condition (Vin = Vout). Therefore, the switching threshold voltage is Vm ≈ 0.988 V.
+
+---
